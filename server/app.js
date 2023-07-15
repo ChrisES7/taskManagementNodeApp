@@ -14,17 +14,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 let loggedIn = false;
+let folder = "loggedIn";
 
 app.get("/", (req, res) => {
   if (loggedIn) {
-    res.sendFile("./frontEndFiles/loggedIn/index.html", {
-      root: path.join(__dirname, "../"),
-    });
+    folder = "loggedIn";
   } else {
-    res.sendFile("./frontEndFiles/notLoggedIn/index.html", {
-      root: path.join(__dirname, "../"),
-    });
+    folder = "notLoggedIn";
   }
+
+  res.sendFile(`./frontEndFiles/${folder}/index.html`, {
+    root: path.join(__dirname, "../"),
+  });
 });
 
 app.listen(3308, console.log("Up and Running"));
