@@ -1,0 +1,45 @@
+I will have to start by structuring the MySQL tables :
+- One table for the user (id,username,email,password,dateCreated,listingsNumber)
+- One table for tasks (userId,taskId,taskTitle,taskDescription,dayCreated,toBeFinishedBy)
+ChatGPT says :
+
+Certainly! Let's break down the different parts of a Task Management app and discuss how you can structure each component:
+
+1. User Authentication and Authorization:
+   - Implement user registration and login functionality using Node.js frameworks like Express.js.
+   - Store user credentials securely in a database, such as MongoDB or PostgreSQL.
+   - Utilize authentication middleware, such as Passport.js, for session management and user authorization.
+   - Make a separate html file for registration/login
+   - Need to check if user is logged in, then send a separate index.html file if he is
+
+2. Task Management:
+   - Create a database schema to store tasks, including fields such as task title, description, due date, priority, and completion status.
+   - Design the user interface to display tasks in a list or card format, allowing users to view, create, update, and delete tasks.
+   - Implement CRUD (Create, Read, Update, Delete) operations using appropriate HTTP methods (GET, POST, PUT, DELETE) in combination with RESTful API endpoints.
+
+3. Task Notifications and Reminders:
+   - Set up a system to send task notifications and reminders to users via email or push notifications.
+   - Implement a scheduler that periodically checks for upcoming tasks and sends notifications accordingly.
+   - Integrate third-party services like SendGrid or Firebase Cloud Messaging to handle notifications.
+
+4. User Settings and Preferences:
+   - Provide users with the ability to customize their task management experience.
+   - Allow users to set their preferred notification settings, such as email frequency or notification channels.
+   - Implement user profile pages where users can update their information, change passwords, and manage account settings.
+
+5. Collaborative Features (optional):
+   - Extend your app to support collaboration if multiple users need to work together on tasks.
+   - Implement features like task assignment, task sharing, or comments for users to communicate and collaborate within the app.
+   - Use real-time communication technologies like WebSockets or a library like Socket.IO to enable instant updates and notifications across users.
+
+6. Data Persistence:
+   - Choose a database system (SQL or NoSQL) to store user information, task details, and other relevant data.
+   - Design the database schema and establish relationships between tables or collections.
+   - Use an Object-Relational Mapping (ORM) library like Mongoose or Sequelize to interact with the database from your Node.js application.
+
+7. User Interface (UI) and User Experience (UX):
+   - Develop an intuitive and user-friendly interface to interact with tasks and manage user settings.
+   - Utilize modern front-end frameworks like React, Angular, or Vue.js to build responsive and dynamic UI components.
+   - Implement client-side form validation, error handling, and feedback mechanisms to enhance the user experience.
+
+Remember to modularize your codebase into reusable components, use proper error handling and validation techniques, and follow best practices for security (e.g., input sanitization, authentication, and authorization).
