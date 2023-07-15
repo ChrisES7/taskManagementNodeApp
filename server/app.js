@@ -12,3 +12,13 @@ app.use(express.static(__dirname + "/../"));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+let loggedIn = false;
+
+app.get("/", (req, res) => {
+  if (loggedIn) {
+    res.sendFile("./frontEndFiles/loggedIn/index.html");
+  } else {
+    res.sendFile("./frontEndFiles/notLoggedIn/index.html");
+  }
+});
