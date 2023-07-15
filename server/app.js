@@ -17,8 +17,14 @@ let loggedIn = false;
 
 app.get("/", (req, res) => {
   if (loggedIn) {
-    res.sendFile("./frontEndFiles/loggedIn/index.html");
+    res.sendFile("./frontEndFiles/loggedIn/index.html", {
+      root: path.join(__dirname, "../"),
+    });
   } else {
-    res.sendFile("./frontEndFiles/notLoggedIn/index.html");
+    res.sendFile("./frontEndFiles/notLoggedIn/index.html", {
+      root: path.join(__dirname, "../"),
+    });
   }
 });
+
+app.listen(3308, console.log("Up and Running"));
