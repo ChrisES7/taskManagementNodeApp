@@ -10,8 +10,20 @@
     <div id="firstMessageDiv">
       <h2>you must first create an account to use this application</h2>
       <form class="" action="index.html" method="post">
-        <input type="submit" name="login" value="Log In" />
-        <input type="submit" name="register" value="Register" />
+        <input
+          type="submit"
+          name="login"
+          value="Log In"
+          class="custom-button"
+          data-button="loginBtn"
+        />
+        <input
+          type="submit"
+          name="register"
+          value="Register"
+          class="custom-button"
+          data-button="registerBtn"
+        />
         <!-- req.body.login or register will send different pages -->
       </form>
     </div>
