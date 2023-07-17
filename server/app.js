@@ -7,6 +7,23 @@ const mysql = require("mysql");
 dotenv.config();
 let dateNow = null;
 
+const mime = require("mime");
+
+app.use(
+  express.static("public", {
+    setHeaders: (res, filePath) => {
+      console.log(filePath);
+      if (mime.getType(filePath) === "text/html") {
+        res.setHeader("Content-Type", "text/html");
+      } else if (mime.getType(filePath) === "text/css") {
+        res.setHeader("Content-Type", "text/css");
+      } else if (mime.getType(filePath) === "application/javascript") {
+        res.setHeader("Content-Type", "application/javascript");
+      }
+    },
+  })
+);
+
 app.use(express.static(__dirname + "/../"));
 
 app.use(cors());
@@ -24,6 +41,17 @@ app.get("/", (req, res) => {
   }
 
   res.sendFile(`./frontEndFiles/${folder}/index.html`, {
+    root: path.join(__dirname, "../"),
+  });
+});
+
+app.get("/register", (req, res) => {
+  res.sendFile(`./frontEndFiles/loggedIn/login.html`, {
+    root: path.join(__dirname, "../"),
+  });
+});
+app.get("/login", (req, res) => {
+  res.sendFile(`./frontEndFiles/notLoggedIn/login.html`, {
     root: path.join(__dirname, "../"),
   });
 });

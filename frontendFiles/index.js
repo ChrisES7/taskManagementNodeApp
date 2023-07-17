@@ -13,8 +13,7 @@ buttons.forEach((button) => {
 
 // Event listener function for button clicks
 function handleButtonClick(event) {
-  const button = event.target;
-  const buttonType = button.getAttribute("data-button");
+  const buttonType = event.target.getAttribute("data-button");
 
   // Perform actions based on button type
   if (buttonType === "loginBtn") {
