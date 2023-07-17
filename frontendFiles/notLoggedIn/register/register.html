@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <!-- <base href="/" /> -->
+    <title>Register for ToDoList</title>
+    <link rel="stylesheet" href="../css/notLoggedIn/register.css" />
+  </head>
+  <body>
+    <div id="firstMessageDiv">
+      <h2>Please Register Below</h2>
+      <form action="/createUser" method="post">
+        <h2 style="text-align: center;">Enter your details :</h2>
+        <div id="username">
+          <label for="username"> Your Username : </label>
+          <input
+            type="text"
+            name="usernameRegistered"
+            placeholder="JohnD77..."
+          />
+        </div>
+        <div id="email">
+          <label for="email"> Your Email : </label>
+          <input
+            type="text"
+            name="emailRegistered"
+            placeholder="johndoe@hot..."
+          />
+        </div>
+        <div id="password">
+          <label for="password"> Your Password : </label>
+          <input
+            type="text"
+            name="passwordRegistered"
+            placeholder="johnDoe13!..."
+          />
+        </div>
+        <input type="submit" name="register" value="Register" />
+      </form>
+    </div>
+  </body>
+  <script
+    src="./frontEndFiles/notLoggedIn/register/register.js"
+    charset="utf-8"
+  ></script>
+</html>

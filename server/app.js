@@ -46,12 +46,19 @@ app.get("/", (req, res) => {
 });
 
 app.get("/register", (req, res) => {
-  res.sendFile(`./frontEndFiles/loggedIn/login.html`, {
+  res.sendFile(`./frontEndFiles/notLoggedIn/register/register.html`, {
     root: path.join(__dirname, "../"),
   });
 });
+
+app.post("/createUser", (req, res) => {
+  let userName = req.body.usernameRegistered;
+  let email = req.body.emailRegistered;
+  let password = req.body.passwordRegistered;
+});
+
 app.get("/login", (req, res) => {
-  res.sendFile(`./frontEndFiles/notLoggedIn/login.html`, {
+  res.sendFile(`./frontEndFiles/notLoggedIn/login/login.html`, {
     root: path.join(__dirname, "../"),
   });
 });

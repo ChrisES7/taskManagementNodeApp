@@ -1,0 +1,33 @@
+* {
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#firstMessageDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#firstMessageDiv h2 {
+  padding: 0px;
+  margin: 10px 5px;
+}
+
+#firstMessageDiv div {
+  display: flex;
+  align-items: flex-start;
+  margin: 7px 0px;
+}
+
+#firstMessageDiv div input {
+  margin: 0px 5px;
+}
