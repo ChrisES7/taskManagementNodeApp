@@ -15,7 +15,11 @@ function addError(div, field) {
   const errorMessage = document.createElement("p");
   errorMessage.textContent = `${field} must contain at least one uppercase letter`;
   errorMessage.style.color = "red";
-  div.appendChild(errorMessage);
+  if (list.hasChildNodes()) {
+    list.removeChild(list.children[0]);
+  } else {
+    div.appendChild(errorMessage);
+  }
 }
 
 createUserForm.addEventListener("submit", (e) => {
