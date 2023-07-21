@@ -13,12 +13,22 @@ let usernameInput = document.querySelector('input[name="usernameRegistered"]');
 
 function addError(div, field) {
   const errorMessage = document.createElement("p");
+  let nbChildren = div.childElementCount;
   errorMessage.textContent = `${field} must contain at least one uppercase letter`;
   errorMessage.style.color = "red";
-  if (list.hasChildNodes()) {
-    list.removeChild(list.children[0]);
+  errorMessage.id = "errorRegister";
+  if (div.hasChildNodes()) {
+    if (nbChildren == 3) {
+      if (div.children[2].id == "errorRegister") {
+        div.removeChild(div.children[2]);
+        div.appendChild(errorMessage);
+      } else {
+        div.appendChild(errorMessage);
+      }
+    } else {
+      console.log("Have a nice day!");
+    }
   } else {
-    div.appendChild(errorMessage);
   }
 }
 
@@ -41,9 +51,12 @@ createUserForm.addEventListener("submit", (e) => {
   }
   // PASSWORD
   const passwordValue = passwordInput.value;
+  let passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
   if (passwordPattern.test(passwordValue)) {
     event.preventDefault(); // Prevent the form from submitting
     const passwordDiv = document.querySelector("#password");
     addError(passwordDiv, "Password");
   }
+
+  break;
 });

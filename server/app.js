@@ -67,10 +67,10 @@ app.post("/createUser", (req, res) => {
   let password = req.body.passwordRegistered;
 
   let dateObj = new Date();
-  let month = dateObj.getUTCMonth() + 1; //months from 1-12
-  let day = dateObj.getUTCDate();
-  let year = dateObj.getUTCFullYear();
-  let dateCreated = year + month + day;
+  // let month = dateObj.getUTCMonth() + 1; //months from 1-12
+  // let day = dateObj.getUTCDate();
+  // let year = dateObj.getUTCFullYear();
+  // let dateCreated = year + month + day;
 
   let nbTasks = 0;
   // params is what is sent through the browser
@@ -91,12 +91,10 @@ app.post("/createUser", (req, res) => {
     }
 
     const query =
-      "INSERT INTO users (user_id,username,user_password,user_email,dateCreated,nbTasks) VALUES (?,?,?,?,?)";
-    const values = [userName, password, email, dateCreated, nbTasks];
+      "INSERT INTO users (username,user_password,user_email,dateCreated,nbTasks) VALUES (?,?,?,?,?)";
+    const values = [userName, password, email, dateObj, nbTasks];
 
     connection.query(query, values, (err, result) => {
-      connection.release();
-
       connection.release(); // Release the connection back to the pool
 
       if (err) {
