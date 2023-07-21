@@ -30,6 +30,16 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const pool = mysql.createPool({
+  connectionLimit: 10,
+  host: "localhost",
+  user: "root",
+  password: "kikoso17",
+  database: "todolist",
+  authPlugin: "mysql_native_password",
+  multipleStatements: true,
+});
+
 let loggedIn = false;
 let folder = "loggedIn";
 
@@ -63,6 +73,44 @@ app.post("/createUser", (req, res) => {
   let dateCreated = year + month + day;
 
   let nbTasks = 0;
+  // params is what is sent through the browser
+  // const id = req.params.id;
+  // const editName = req.params.name;
+  // console.log(req.query.name);
+  // console.log("editName: " + editName);
+
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error(
+        "Error getting connection from MySQL database pool: " + err.stack
+      );
+      res
+        .status(500)
+        .send("Error getting connection from MySQL database pool.");
+      return;
+    }
+
+    const query =
+      "INSERT INTO users (user_id,username,user_password,user_email,dateCreated,nbTasks) VALUES (?,?,?,?,?)";
+    const values = [userName, password, email, dateCreated, nbTasks];
+
+    connection.query(query, values, (err, result) => {
+      connection.release();
+
+      connection.release(); // Release the connection back to the pool
+
+      if (err) {
+        console.error("Error inserting data into MySQL database: " + err.stack);
+        res.status(500).send("Error inserting data into MySQL database.");
+        return;
+      }
+      console.log("Data inserted into MySQL database.");
+      //res.status(200).send("Data presnted from MySQL database.");
+
+      // res.sendFile("index.html", { root: path.join(__dirname, "../") });
+      res.redirect("/");
+    });
+  });
 });
 
 app.get("/login", (req, res) => {
