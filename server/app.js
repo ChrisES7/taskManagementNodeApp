@@ -55,6 +55,14 @@ app.post("/createUser", (req, res) => {
   let userName = req.body.usernameRegistered;
   let email = req.body.emailRegistered;
   let password = req.body.passwordRegistered;
+
+  let dateObj = new Date();
+  let month = dateObj.getUTCMonth() + 1; //months from 1-12
+  let day = dateObj.getUTCDate();
+  let year = dateObj.getUTCFullYear();
+  let dateCreated = year + month + day;
+
+  let nbTasks = 0;
 });
 
 app.get("/login", (req, res) => {
