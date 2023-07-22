@@ -20,6 +20,9 @@ function loadHTMLTable(data) {
   let valueNb = 0;
   const length = 30;
 
+  const welcomeBack = document.querySelector("welcomeBack");
+  // find a way to get username from other table
+
   if (data.length === 0) {
     mainDiv.innerHTML =
       "<div class='outerTasksDiv'><div class='taskListDiv'><h1 class='noTasksMsg'>No Tasks Yet...</h1></div></div>";
@@ -65,6 +68,7 @@ function loadHTMLTable(data) {
             const taskId = document.createElement("h1");
             taskId.textContent = value;
             taskIdDiv.appendChild(taskId);
+            taskIdDiv.classList.add("taskIdDiv");
             newTaskDiv.appendChild(taskIdDiv);
             break;
           case 2:
@@ -83,7 +87,9 @@ function loadHTMLTable(data) {
             }
 
             taskTitleDiv.appendChild(taskTitle);
+            taskTitleDiv.classList.add("taskTitleDiv");
             taskTitleDescDiv.appendChild(taskTitleDiv);
+            taskTitleDescDiv.classList.add("taskTitleDescDiv");
             break;
           case 3:
             console.log("TASK DESCRIPTION : " + value);
@@ -96,6 +102,7 @@ function loadHTMLTable(data) {
               taskDesc.textContent = value;
             }
             taskDescDiv.appendChild(taskDesc);
+            taskDescDiv.classList.add("taskDescDiv");
             taskTitleDescDiv.appendChild(taskDescDiv);
             //if value more than 30 characters, add a ...,then read more pop ups a prompt window
             newTaskDiv.appendChild(taskTitleDescDiv);
@@ -108,8 +115,11 @@ function loadHTMLTable(data) {
             console.log("TO BE DONE BY : " + value);
             const doneByDiv = document.createElement("div");
             const doneByDate = document.createElement("h2");
-            doneByDate.textContent = value;
+            // doneByDate.textContent = value;
+            doneByDate.textContent = value.substr(0, 10);
             doneByDiv.appendChild(doneByDate);
+            // change format to 2023 on top, switch case to make the month into a word, then the day
+            newTaskDiv.appendChild(doneByDiv);
             break;
         }
         //i could even choose to not display every value, and have a show more button where i would take the id, then do a fetch with javascript and ...you know
