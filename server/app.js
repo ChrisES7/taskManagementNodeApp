@@ -49,34 +49,6 @@ app.get("/", (req, res) => {
   console.log(passedVariable);
   if (passedVariable == "loggedIn") {
     folder = "loggedIn";
-
-    pool.getConnection((err, connection) => {
-      if (err) {
-        console.error(
-          "Error getting connection from MySQL database pool: " + err.stack
-        );
-        res
-          .status(500)
-          .send("Error getting connection from MySQL database pool.");
-        return;
-      }
-      // get username from params from url?
-      const query = "SELECT * FROM tasks";
-      connection.query(query, (err, result) => {
-        console.log(result);
-        connection.release(); // Release the connection back to the pool
-
-        if (err) {
-          console.error(
-            "Error inserting data into MySQL database: " + err.stack
-          );
-          res.status(500).send("Error inserting data into MySQL database.");
-          return;
-        }
-        console.log("Data gotten from MySQL database.");
-        res.json(result); // Send the result as JSON response
-      });
-    });
   } else if (passedVariable == "undefined") {
     folder = "notLoggedIn";
   } else {
@@ -154,8 +126,82 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  console.log("Posted Login");
-  res.redirect("/?valid=loggedIn");
+  const { username, password } = req.body;
+
+  // Your logic to verify the login credentials against the MySQL database
+
+  // Perform a database query and compare the entered username and password
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error(
+        "Error getting connection from MySQL database pool: " + err.stack
+      );
+      res
+        .status(500)
+        .send("Error getting connection from MySQL database pool.");
+      return;
+    }
+
+    const query =
+      "SELECT * FROM users WHERE username = ? AND user_password = ?";
+    const values = [username, password];
+
+    connection.query(query, values, (err, results) => {
+      if (err) {
+        console.error("Error executing the query:", err);
+        res.status(500).send("Error executing the query");
+        return;
+      }
+
+      // Process the results
+      if (results.length > 0) {
+        // The login credentials are correct
+        // res.send("Login successful");
+        res.redirect("/?valid=loggedIn");
+      } else {
+        // Invalid login credentials
+        res.status(401).send("Invalid username or password");
+      }
+    });
+  });
 });
 
+// this gets all the results from mysql and turns them into json,
+// they then get fetched from javascript and sent into another route
+// that redirects it to a file.
+app.get("/getUserTasks", (req, res) => {
+  console.log("Posted Login");
+
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error(
+        "Error getting connection from MySQL database pool: " + err.stack
+      );
+      res
+        .status(500)
+        .send("Error getting connection from MySQL database pool.");
+      return;
+    }
+    // get username from params from url?
+    const query = "SELECT * FROM tasks";
+    connection.query(query, (err, result) => {
+      console.log(result);
+      connection.release(); // Release the connection back to the pool
+
+      if (err) {
+        console.error("Error inserting data into MySQL database: " + err.stack);
+        res.status(500).send("Error inserting data into MySQL database.");
+        return;
+      }
+      console.log("Data gotten from MySQL database.");
+      res.json(result); // Send the result as JSON response
+    });
+  });
+});
+
+app.get("/loggedIn", (req, res) => {
+  res.sendFile(`./frontEndFiles/loggedIn/index.html`, {
+    root: path.join(__dirname, "../"),
+  });
+});
 app.listen(3308, console.log("Up and Running"));
