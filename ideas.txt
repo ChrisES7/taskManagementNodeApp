@@ -1,0 +1,9 @@
+make title and desc smaller
+add arrow on left for edit and bottom for dleete
+
+add task route
+
+say welcome back (user)
+get tasks for user id
+
+if todays date is past the due date, task colors become red and blocked out

@@ -1,7 +1,7 @@
 console.log("Javascript Loaded");
 
 document.addEventListener("DOMContentLoaded", function () {
-  fetch("http://localhost:3308/getUserTasks")
+  fetch(`http://localhost:3308/getUserTasks/1`)
     .then((response) => response.json())
     .then((data) => {
       console.log(data); // data is all the tasks from the table, i need to specify user
@@ -10,6 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
     .catch((error) => {
       console.error(error);
     });
+
+  // fetch
 });
 let i = 0;
 let idNow = null;
@@ -20,8 +22,21 @@ function loadHTMLTable(data) {
   let valueNb = 0;
   const length = 30;
 
-  const welcomeBack = document.querySelector("welcomeBack");
+  const welcomeBack = document.querySelector("#welcomeBack");
   // find a way to get username from other table
+  console.log(data[0].user_id);
+  let currentUserId = data[0].user_id;
+  fetch(`http://localhost:3308/getUsername/${currentUserId}`)
+    .then((response) => response.json())
+    .then((dataUsername) => {
+      // console.log(dataUsername);
+      const username = dataUsername[0].username; // data is all the tasks from the table, i need to specify user
+      welcomeBack.textContent = `Welcome back ${username} ! Here are your tasks.`;
+      // console.log(username);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 
   if (data.length === 0) {
     mainDiv.innerHTML =
@@ -86,7 +101,7 @@ function loadHTMLTable(data) {
             // for every task, you can click on a button
 
             const taskTitleDiv = document.createElement("div");
-            const taskTitle = document.createElement("h1");
+            const taskTitle = document.createElement("h2");
 
             console.log("LENGTH : " + value.length);
             if (value.length > length) {

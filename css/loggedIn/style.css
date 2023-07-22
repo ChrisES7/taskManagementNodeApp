@@ -21,8 +21,9 @@ body {
 .outerTasksDiv {
   width: 80%;
   border-radius: 20px;
-  background-color: blue;
+  background-color: rgb(25, 121, 255, 0.12);
   padding: 20px 50px;
+  /* opacity: 5%; */
 }
 
 .outerTasksDiv h1,
@@ -124,4 +125,8 @@ h2 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+#welcomeBack {
+  color: #5e82f8;
 }

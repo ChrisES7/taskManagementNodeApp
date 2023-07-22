@@ -169,7 +169,8 @@ app.post("/login", (req, res) => {
 // this gets all the results from mysql and turns them into json,
 // they then get fetched from javascript and sent into another route
 // that redirects it to a file.
-app.get("/getUserTasks", (req, res) => {
+app.get("/getUserTasks/:id", (req, res) => {
+  const id = req.params.id;
   console.log("Posted Login");
 
   pool.getConnection((err, connection) => {
@@ -183,8 +184,39 @@ app.get("/getUserTasks", (req, res) => {
       return;
     }
     // get username from params from url?
-    const query = "SELECT * FROM tasks";
-    connection.query(query, (err, result) => {
+    const query = "SELECT * FROM tasks WHERE user_id = ?";
+    connection.query(query, id, (err, result) => {
+      console.log(result);
+      connection.release(); // Release the connection back to the pool
+
+      if (err) {
+        console.error("Error inserting data into MySQL database: " + err.stack);
+        res.status(500).send("Error inserting data into MySQL database.");
+        return;
+      }
+      console.log("Data gotten from MySQL database.");
+      res.json(result); // Send the result as JSON response
+    });
+  });
+});
+
+app.get("/getUsername/:id", (req, res) => {
+  const id = req.params.id;
+  console.log("getting username");
+
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error(
+        "Error getting connection from MySQL database pool: " + err.stack
+      );
+      res
+        .status(500)
+        .send("Error getting connection from MySQL database pool.");
+      return;
+    }
+    // get username from params from url?
+    const query = "SELECT username FROM users WHERE user_id = ?";
+    connection.query(query, id, (err, result) => {
       console.log(result);
       connection.release(); // Release the connection back to the pool
 
