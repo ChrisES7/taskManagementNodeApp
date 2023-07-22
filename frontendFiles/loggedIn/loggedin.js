@@ -25,7 +25,7 @@ function loadHTMLTable(data) {
   const welcomeBack = document.querySelector("#welcomeBack");
   // find a way to get username from other table
   console.log(data[0].user_id);
-  let currentUserId = data[0].user_id;
+  const currentUserId = data[0].user_id;
   fetch(`http://localhost:3308/getUsername/${currentUserId}`)
     .then((response) => response.json())
     .then((dataUsername) => {
@@ -47,32 +47,51 @@ function loadHTMLTable(data) {
     outerDiv.classList.add("outerTasksDiv");
     const taskListDiv = document.createElement("div");
     taskListDiv.classList.add("taskListDiv");
-    const newTaskDiv = document.createElement("div");
-    newTaskDiv.classList.add("newTaskDiv");
-    const newTaskDivDiv = document.createElement("div");
-    newTaskDivDiv.classList.add("newTaskDivDiv");
-    newTaskDivDiv.appendChild(newTaskDiv);
-
-    const showMoreDiv = document.createElement("div");
-    const showMore = document.createElement("a");
-    showMore.textContent = "Open Full Task";
-    showMore.classList.add("showMore");
-    showMoreDiv.classList.add("showMoreDiv");
-    showMoreDiv.appendChild(showMore);
-    newTaskDivDiv.appendChild(showMoreDiv);
-
-    const stickDiv = document.createElement("div");
-    stickDiv.classList.add("stickDiv");
-    const horizontalStickDiv = document.createElement("div");
-    horizontalStickDiv.classList.add("horizontalStickDiv");
-
-    const taskTitleDescDiv = document.createElement("div");
+    const mainDiv = document.querySelector(".mainDiv");
 
     outerDiv.appendChild(taskListDiv);
+
+    // <iframe
+    //   src="page1.html"
+    //   name="targetframe"
+    //   allowTransparency="true"
+    //   scrolling="no"
+    //   frameborder="0"
+    // ></iframe>;
+    // add iframe of the edit page,which is an html of itself
+    // in that html i have sent a edit/userid/taskId
 
     data.forEach((task) => {
       // console.log("TSSK OUTSIDE : ");
       // console.log(task);
+
+      const newTaskDiv = document.createElement("div");
+      newTaskDiv.classList.add("newTaskDiv");
+      const newTaskDivDiv = document.createElement("div");
+      newTaskDivDiv.classList.add("newTaskDivDiv");
+      newTaskDivDiv.appendChild(newTaskDiv);
+
+      const showMoreDiv = document.createElement("div");
+      const showMore = document.createElement("a");
+      showMore.textContent = "Open Full Task";
+      showMore.classList.add("showMore");
+      showMoreDiv.classList.add("showMoreDiv");
+      showMoreDiv.appendChild(showMore);
+      newTaskDivDiv.appendChild(showMoreDiv);
+
+      const stickDiv = document.createElement("div");
+      stickDiv.classList.add("stickDiv");
+      const horizontalStickDiv = document.createElement("div");
+      horizontalStickDiv.classList.add("horizontalStickDiv");
+
+      const taskTitleDescDiv = document.createElement("div");
+      const editButton = document.createElement("button");
+      editButton.classList.add("editBtn");
+      editButton.textContent = "Edit Task";
+
+      const taskOptionsDiv = document.createElement("div");
+      taskOptionsDiv.classList.add("taskOptionsDiv");
+
       Object.values(task).forEach((value) => {
         // for each task, not foreach value
         // console.log("TASK :");
@@ -81,6 +100,7 @@ function loadHTMLTable(data) {
         // console.log(value); // sends each value ("chores")
         // idText.textContent = "test";
         // newTaskDiv.appendChild(idText);
+
         switch (
           valueNb // i need beautiful fonts,color palettes and animations
         ) {
@@ -151,11 +171,22 @@ function loadHTMLTable(data) {
         //i could even choose to not display every value, and have a show more button where i would take the id, then do a fetch with javascript and ...you know
         valueNb += 1;
         // taskNb += 1;
-        taskListDiv.appendChild(newTaskDivDiv);
       });
-      document.querySelector(".mainDiv").appendChild(outerDiv);
+      taskOptionsDiv.appendChild(editButton);
+      taskOptionsDiv.appendChild(newTaskDivDiv);
+      taskListDiv.appendChild(taskOptionsDiv);
+      mainDiv.appendChild(outerDiv);
       valueNb = 0; // resets before going to second task
     });
-    document.body.appendChild(outerDiv);
+    document.body.appendChild(mainDiv);
   }
+}
+
+function popupEdit(userId, taskId) {
+  // from here, i have the task id, so i can display
+  // (dateToBeDoneBy,title,description) and a submit button in the form
+  // when user submits, take every element, put it in its own
+  // variable and put the variables in a data object,in json format
+  //
+  //
 }
