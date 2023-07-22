@@ -38,7 +38,15 @@ h2 {
   height: 70px;
   margin: 0px 10px;
   border-radius: 20px;
-  background-color: darkgrey;
+  background-color: #85a2f2;
+}
+
+.horizontalStickDiv {
+  width: 200px;
+  height: 7px;
+  margin: 10px 0px;
+  border-radius: 20px;
+  background-color: #85a2f2;
 }
 
 .taskListDiv {
@@ -52,8 +60,8 @@ h2 {
 }
 
 .newTaskDiv {
-  background-color: blue;
-  border-radius: 20px;
+  background-color: #507cf5;
+  border-radius: 20px 20px 0px 0px;
   padding: 10px 15px;
   /* width: 40%; */
   display: flex;
@@ -66,6 +74,33 @@ h2 {
   margin: 0px 10px;
 }
 
+.showMoreDiv {
+  width: 100%;
+  background-color: #85a2f2;
+  text-align: center;
+  padding: 10px 0px;
+  cursor: pointer;
+  transition: 0.8s ease;
+}
+
+.showMoreDiv:hover {
+  background-color: #718bd1;
+  transition: 0.8s ease;
+}
+.showMore {
+  color: white;
+  /* width: 100%; */
+  text-align: center;
+  font-family: "COCOGOOSE";
+}
+
+.newTaskDivDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .taskIdDiv h1 {
   margin: 0px;
 }
@@ -73,4 +108,20 @@ h2 {
   padding: 15px 25px;
   background-color: lightblue;
   border-radius: 20px;
+}
+
+.taskTitleDiv h1,
+h2 {
+  margin: 5px 0px;
+}
+
+.taskDescDiv {
+  /*  */
+}
+
+.taskTitleDescDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

@@ -34,12 +34,22 @@ function loadHTMLTable(data) {
     taskListDiv.classList.add("taskListDiv");
     const newTaskDiv = document.createElement("div");
     newTaskDiv.classList.add("newTaskDiv");
+    const newTaskDivDiv = document.createElement("div");
+    newTaskDivDiv.classList.add("newTaskDivDiv");
+    newTaskDivDiv.appendChild(newTaskDiv);
 
+    const showMoreDiv = document.createElement("div");
     const showMore = document.createElement("a");
     showMore.textContent = "Open Full Task";
+    showMore.classList.add("showMore");
+    showMoreDiv.classList.add("showMoreDiv");
+    showMoreDiv.appendChild(showMore);
+    newTaskDivDiv.appendChild(showMoreDiv);
 
     const stickDiv = document.createElement("div");
     stickDiv.classList.add("stickDiv");
+    const horizontalStickDiv = document.createElement("div");
+    horizontalStickDiv.classList.add("horizontalStickDiv");
 
     const taskTitleDescDiv = document.createElement("div");
 
@@ -90,6 +100,7 @@ function loadHTMLTable(data) {
             taskTitleDiv.classList.add("taskTitleDiv");
             taskTitleDescDiv.appendChild(taskTitleDiv);
             taskTitleDescDiv.classList.add("taskTitleDescDiv");
+            taskTitleDescDiv.appendChild(horizontalStickDiv);
             break;
           case 3:
             console.log("TASK DESCRIPTION : " + value);
@@ -125,7 +136,7 @@ function loadHTMLTable(data) {
         //i could even choose to not display every value, and have a show more button where i would take the id, then do a fetch with javascript and ...you know
         valueNb += 1;
         // taskNb += 1;
-        taskListDiv.appendChild(newTaskDiv);
+        taskListDiv.appendChild(newTaskDivDiv);
       });
       document.querySelector(".mainDiv").appendChild(outerDiv);
       valueNb = 0; // resets before going to second task
