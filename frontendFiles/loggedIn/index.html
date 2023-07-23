@@ -9,6 +9,42 @@
     <h2 id="welcomeBack">Welcome back!</h2>
 
     <div class="mainDiv"></div>
+
+    <div class="filterBlur">
+      <div class="popUpEditWindow">
+        <div class="textAreasDiv">
+          <div>
+            <label for="taskName" style="padding: 3px; padding-left: 0px;"
+              >Name</label
+            >
+            <input type="text" name="taskName" value="" style="padding: 3px;" />
+          </div>
+          <div style="flex-direction: column;">
+            <label for="taskDesc">Description</label>
+            <textarea name="taskDesc" rows="15" cols="30"></textarea>
+          </div>
+        </div>
+        <div class="dateAreasDiv">
+          <div class="">
+            <label for="taskCreated">Date Created</label>
+            <input type="date" name="taskCreated" value="" />
+            <br />
+            <br />
+            <label for="taskCreated">Date To Be Done By</label>
+            <input type="date" name="taskDoneBy" value="" />
+          </div>
+          <div class="taskEditSubmitDiv">
+            <form action="/editTask" method="put">
+              <input type="submit" value="Edit Task" />
+            </form>
+          </div>
+        </div>
+
+        <!-- values will be selected by name -->
+        <!-- values will be added in Javascript -->
+        <!-- value for date is YYYY-MM-DD -->
+      </div>
+    </div>
   </body>
   <script src="./frontendFiles/loggedIn/loggedin.js" charset="utf-8"></script>
 </html>

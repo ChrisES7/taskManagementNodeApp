@@ -60,7 +60,7 @@ function loadHTMLTable(data) {
     // ></iframe>;
     // add iframe of the edit page,which is an html of itself
     // in that html i have sent a edit/userid/taskId
-
+    let userId = null;
     data.forEach((task) => {
       // console.log("TSSK OUTSIDE : ");
       // console.log(task);
@@ -75,6 +75,7 @@ function loadHTMLTable(data) {
       const showMore = document.createElement("a");
       showMore.textContent = "Open Full Task";
       showMore.classList.add("showMore");
+
       showMoreDiv.classList.add("showMoreDiv");
       showMoreDiv.appendChild(showMore);
       newTaskDivDiv.appendChild(showMoreDiv);
@@ -85,9 +86,6 @@ function loadHTMLTable(data) {
       horizontalStickDiv.classList.add("horizontalStickDiv");
 
       const taskTitleDescDiv = document.createElement("div");
-      const editButton = document.createElement("button");
-      editButton.classList.add("editBtn");
-      editButton.textContent = "Edit Task";
 
       const taskOptionsDiv = document.createElement("div");
       taskOptionsDiv.classList.add("taskOptionsDiv");
@@ -106,6 +104,9 @@ function loadHTMLTable(data) {
         ) {
           case 0:
             console.log("USER_ID : " + value);
+            console.log(userId);
+            userId = value;
+            console.log(userId);
             break;
           case 1:
             console.log("TASK_ID : " + value);
@@ -115,6 +116,8 @@ function loadHTMLTable(data) {
             taskIdDiv.appendChild(taskId);
             taskIdDiv.classList.add("taskIdDiv");
             newTaskDiv.appendChild(taskIdDiv);
+            console.log(taskId);
+            showMore.setAttribute("id", taskId.textContent);
             break;
           case 2:
             console.log("TASK_TITLE : " + value);
@@ -172,21 +175,47 @@ function loadHTMLTable(data) {
         valueNb += 1;
         // taskNb += 1;
       });
-      taskOptionsDiv.appendChild(editButton);
       taskOptionsDiv.appendChild(newTaskDivDiv);
       taskListDiv.appendChild(taskOptionsDiv);
       mainDiv.appendChild(outerDiv);
       valueNb = 0; // resets before going to second task
+      console.log(userId);
+      showMore.addEventListener("click", (event) => {
+        let taskId = event.target.id;
+        console.log(taskId);
+        console.log(userId);
+        popupEdit(userId, taskId);
+      });
     });
     document.body.appendChild(mainDiv);
   }
 }
 
-function popupEdit(userId, taskId) {
+function popupEdit(user_id, task_id) {
   // from here, i have the task id, so i can display
   // (dateToBeDoneBy,title,description) and a submit button in the form
   // when user submits, take every element, put it in its own
   // variable and put the variables in a data object,in json format
   //
   //
+
+  fetch(`http://localhost:3308/getUserTasks/${user_id}`)
+    .then((response) => response.json())
+    .then((data) => {
+      //console.log(data); // data is all the tasks from the table, i need to specify user
+      getTaskData(data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+  function getTaskData(data) {
+    data.forEach((task) => {
+      if (task.taskId == task_id) {
+        Object.values(task).forEach((value) => {
+          console.log("valueee = " + value);
+        });
+      }
+    });
+  }
 }
