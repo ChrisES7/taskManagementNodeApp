@@ -162,6 +162,39 @@ h2 {
   font-family: "COCOGOOSE";
 }
 
+.deleteBtnDiv {
+  padding: 10px 0px;
+  background-color: #fd4c66;
+  text-align: center;
+  padding: 10px 0px;
+  cursor: pointer;
+  width: 20%;
+  transition: 0.8s ease;
+}
+
+.deleteBtnDiv:hover {
+  background-color: #d33c43;
+  transition: 0.8s ease;
+}
+.deleteBtn {
+  /* padding: 50px 18px; */
+  /* border-radius: 20px; */
+  /* height: 100%; */
+  border: none;
+  font-family: sans-serif;
+  color: white;
+  font-size: 12pt;
+  text-align: center;
+  font-family: "COCOGOOSE";
+}
+
+.delShowDiv {
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+}
+
 /* POPUP WINDOW ALL STYLES */
 /*  */
 

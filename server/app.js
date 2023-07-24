@@ -282,4 +282,9 @@ app.put("/editTask/:userId/:taskId/", (req, res) => {
   });
 });
 
+app.delete("/delete/:userId/:taskId/", (req, res) => {
+  const userId = req.params.userId;
+  const taskId = req.params.taskId;
+});
+
 app.listen(3308, console.log("Up and Running"));

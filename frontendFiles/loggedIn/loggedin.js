@@ -73,12 +73,28 @@ function loadHTMLTable(data) {
 
       const showMoreDiv = document.createElement("div");
       const showMore = document.createElement("a");
+
       showMore.textContent = "Open Full Task";
       showMore.classList.add("showMore");
 
       showMoreDiv.classList.add("showMoreDiv");
       showMoreDiv.appendChild(showMore);
-      newTaskDivDiv.appendChild(showMoreDiv);
+
+      const deleteBtnDiv = document.createElement("div");
+      deleteBtnDiv.classList.add("deleteBtnDiv");
+      const deleteBtn = document.createElement("a");
+      deleteBtn.classList.add("deleteBtn");
+      deleteBtn.textContent = "Delete";
+      deleteBtnDiv.appendChild(deleteBtn);
+
+      const delShowDiv = document.createElement("div");
+      delShowDiv.classList.add("delShowDiv");
+      delShowDiv.appendChild(deleteBtnDiv);
+      delShowDiv.appendChild(showMoreDiv);
+      // showMoreDiv.appendChild(deleteBtn);
+      // newTaskDivDiv.appendChild(deleteBtnDiv);
+      // newTaskDivDiv.appendChild(showMoreDiv);
+      newTaskDivDiv.appendChild(delShowDiv);
 
       const stickDiv = document.createElement("div");
       stickDiv.classList.add("stickDiv");
