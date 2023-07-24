@@ -290,18 +290,15 @@ function popupEdit(user_id, task_id) {
     ".taskEditSubmitDiv input[type='submit']"
   );
   editButton.addEventListener("click", function editTask() {
-    let title = document
-      .querySelector("input[name='taskName']")
-      .getAttribute("value");
+    let title = document.querySelector("input[name='taskName']").value;
     console.log(title);
-    let desc = taskDesc.textContent;
-    let toBeDoneBy = document
-      .querySelector("#doneByDate")
-      .getAttribute("value");
-    console.log(title + " " + desc + " " + toBeDoneBy);
+    let desc = taskDesc.value;
+    console.log(desc);
+    let toBeDoneBy = document.querySelector("#doneByDate").value;
+    // console.log("ATTR : " + title + " " + desc + " " + toBeDoneBy);
     taskData.taskTitle = title;
     taskData.taskDescription = desc;
-    taskData.dayCreated = toBeDoneBy;
+    taskData.dayDoneBy = toBeDoneBy;
 
     fetch(`http://localhost:3308/editTask/${user_id}/${task_id}/`, {
       method: "PUT",
