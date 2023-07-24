@@ -12,6 +12,12 @@
 
     <div class="filterBlur">
       <div class="popUpEditWindow">
+        <div style="margin: 5px;">
+          <button type="button" onclick="closePopUp()" class="closePopUp">
+            X
+          </button>
+        </div>
+
         <div class="textAreasDiv">
           <div>
             <label for="taskName" style="padding: 3px; padding-left: 0px;"
@@ -25,16 +31,16 @@
           </div>
         </div>
         <div class="dateAreasDiv">
-          <div class="">
+          <div class="dateInputContainer">
             <label for="taskCreated">Date Created</label>
-            <input type="date" name="taskCreated" value="" />
+            <input type="date" name="taskCreated" value="" disabled="true" />
             <br />
             <br />
-            <label for="taskCreated">Date To Be Done By</label>
-            <input type="date" name="taskDoneBy" value="" />
+            <label for="taskDoneBy">Date To Be Done By</label>
+            <input type="date" name="taskDoneBy" id="doneByDate" value="" />
           </div>
           <div class="taskEditSubmitDiv">
-            <form action="/editTask" method="put">
+            <form action="/editTask/" method="PUT">
               <input type="submit" value="Edit Task" />
             </form>
           </div>

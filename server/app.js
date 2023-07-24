@@ -237,6 +237,39 @@ app.get("/loggedIn", (req, res) => {
   });
 });
 
-app.put("/editTask/:userId/:taskId/", (req, res) => {});
+app.put("/editTask/:userId/:taskId/", (req, res) => {
+  const userId = req.params.userId;
+  const taskId = req.params.taskId;
+
+  const { taskTitle, taskDescription, dayCreated } = req.body;
+
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error(
+        "Error getting connection from MySQL database pool: " + err.stack
+      );
+      res
+        .status(500)
+        .send("Error getting connection from MySQL database pool.");
+      return;
+    }
+
+    const query =
+      "UPDATE tasks SET taskTitle = ?,taskDescription = ?,toBeDoneBy = ? WHERE user_id = ? AND task_id = ? VALUES (?,?,?,?,?)";
+    const values = [taskTitle, taskDescription, dayCreated, userId, taskId];
+
+    connection.query(query, values, (err, result) => {
+      connection.release();
+
+      if (err) {
+        console.error("Error searching data in MySQL database: " + err.stack);
+        res.status(500).send("Error searching data in MySQL database.");
+        return;
+      }
+
+      res.json(result); // Return the matching results as JSON
+    });
+  });
+});
 
 app.listen(3308, console.log("Up and Running"));

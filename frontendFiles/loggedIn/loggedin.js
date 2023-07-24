@@ -191,6 +191,20 @@ function loadHTMLTable(data) {
   }
 }
 
+function closePopUp() {
+  let filterBlur = document.querySelector(".filterBlur");
+  let popUpWindow = document.querySelector(".popUpEditWindow");
+  popUpWindow.style.width = "200px";
+  popUpWindow.style.height = "100px";
+  // or maybe play with the scale
+  popUpWindow.style.opacity = "0";
+  filterBlur.style.backgroundColor = "rgba( 0, 0, 0, 0 )";
+  filterBlur.style.backdropFilter = "blur(0px)";
+  filterBlur.style.zIndex = "0";
+  popUpWindow.style.zIndex = "0";
+  let taskDesc = document.querySelector(".textAreasDiv textarea");
+  taskDesc.setAttribute("rows", "5");
+}
 function popupEdit(user_id, task_id) {
   // from here, i have the task id, so i can display
   // (dateToBeDoneBy,title,description) and a submit button in the form
@@ -198,11 +212,27 @@ function popupEdit(user_id, task_id) {
   // variable and put the variables in a data object,in json format
   //
   //
+  const taskData = {};
+
+  let filterBlur = document.querySelector(".filterBlur");
+  let popUpWindow = document.querySelector(".popUpEditWindow");
+  popUpWindow.style.width = "600px";
+  popUpWindow.style.height = "400px";
+  // or maybe play with the scale
+  popUpWindow.style.opacity = "100";
+  filterBlur.style.backgroundColor = "rgba( 0, 0, 0, 0.2 )";
+  filterBlur.style.backdropFilter = "blur(5px)";
+  filterBlur.style.zIndex = "4";
+  popUpWindow.style.zIndex = "5";
+  let taskDesc = document.querySelector(".textAreasDiv textarea");
+  taskDesc.setAttribute("rows", "15");
+
+  // let closePopUpButton = document.querySelector(".closePopUp");
 
   fetch(`http://localhost:3308/getUserTasks/${user_id}`)
     .then((response) => response.json())
     .then((data) => {
-      //console.log(data); // data is all the tasks from the table, i need to specify user
+      console.log(data); // data is all the tasks from the table, i need to specify user
       getTaskData(data);
     })
     .catch((error) => {
@@ -210,12 +240,88 @@ function popupEdit(user_id, task_id) {
     });
 
   function getTaskData(data) {
+    // let taskDesc = document.querySelector(".textAreasDiv textarea");
+    let taskName = document.querySelector(
+      ".textAreasDiv div input[type='text']"
+    );
+    const dateInputContainer = document.querySelector(".dateInputContainer");
+    const createdOn = dateInputContainer.querySelector(
+      'input[name="taskCreated"]'
+    );
+    const doneBy = dateInputContainer.querySelector('input[name="taskDoneBy"]');
+    let taskValueNb = 0;
+
     data.forEach((task) => {
       if (task.taskId == task_id) {
         Object.values(task).forEach((value) => {
           console.log("valueee = " + value);
+
+          switch (taskValueNb) {
+            case 2:
+              taskName.setAttribute("value", value);
+
+              break;
+            case 3:
+              console.log(value);
+              taskDesc.textContent = value;
+
+              break;
+            case 4:
+              let formattedDate = value.substr(0, 10);
+              createdOn.setAttribute("value", formattedDate);
+
+              break;
+            case 5:
+              let today = new Date().toISOString().split("T")[0];
+              console.log(today);
+              console.log(value);
+              doneBy.setAttribute("value", value.substr(0, 10));
+              doneBy.setAttribute("min", today);
+
+              break;
+          }
+          taskValueNb += 1;
         });
       }
     });
   }
+  // rmemeber to disable all except tobedoneby
+  let editButton = document.querySelector(
+    ".taskEditSubmitDiv input[type='submit']"
+  );
+  editButton.addEventListener("click", function editTask() {
+    let title = document.querySelector("name");
+    let desc = taskDesc;
+    let toBeDoneBy = document.querySelector("#doneByDate");
+    console.log(title + " " + desc + " " + toBeDoneBy);
+    taskData.push("taskTitle : " + title);
+    taskData.push("taskDescription : " + desc);
+    taskData.push("dayCreated : " + toBeDoneBy);
+
+    fetch(`/editTask/${user_id}/${task_id}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("Row edited successfully");
+          fetch(`http://localhost:3308/getUserTasks/${user_id}`)
+            .then((response) => response.json())
+            .then((data) => {
+              loadHTMLTable(data); // Reload the table with updated data
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        } else {
+          console.error("Error updating row");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
 }
