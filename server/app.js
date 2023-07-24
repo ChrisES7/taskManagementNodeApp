@@ -242,7 +242,17 @@ app.put("/editTask/:userId/:taskId/", (req, res) => {
   const taskId = req.params.taskId;
 
   const { taskTitle, taskDescription, dayCreated } = req.body;
-
+  console.log(
+    userId +
+      " " +
+      taskId +
+      " " +
+      taskTitle +
+      " " +
+      taskDescription +
+      " " +
+      dayCreated
+  );
   pool.getConnection((err, connection) => {
     if (err) {
       console.error(
@@ -255,9 +265,9 @@ app.put("/editTask/:userId/:taskId/", (req, res) => {
     }
 
     const query =
-      "UPDATE tasks SET taskTitle = ?,taskDescription = ?,toBeDoneBy = ? WHERE user_id = ? AND task_id = ? VALUES (?,?,?,?,?)";
+      "UPDATE tasks SET taskTitle = ?,taskDescription = ?,toBeDoneBy = ? WHERE user_id = ? AND task_id = ? ";
     const values = [taskTitle, taskDescription, dayCreated, userId, taskId];
-
+    console.log(values);
     connection.query(query, values, (err, result) => {
       connection.release();
 

@@ -252,7 +252,7 @@ function popupEdit(user_id, task_id) {
     let taskValueNb = 0;
 
     data.forEach((task) => {
-      if (task.taskId == task_id) {
+      if (task.task_id == task_id) {
         Object.values(task).forEach((value) => {
           console.log("valueee = " + value);
 
@@ -290,20 +290,25 @@ function popupEdit(user_id, task_id) {
     ".taskEditSubmitDiv input[type='submit']"
   );
   editButton.addEventListener("click", function editTask() {
-    let title = document.querySelector("name");
-    let desc = taskDesc;
-    let toBeDoneBy = document.querySelector("#doneByDate");
+    let title = document
+      .querySelector("input[name='taskName']")
+      .getAttribute("value");
+    console.log(title);
+    let desc = taskDesc.textContent;
+    let toBeDoneBy = document
+      .querySelector("#doneByDate")
+      .getAttribute("value");
     console.log(title + " " + desc + " " + toBeDoneBy);
-    taskData.push("taskTitle : " + title);
-    taskData.push("taskDescription : " + desc);
-    taskData.push("dayCreated : " + toBeDoneBy);
+    taskData.taskTitle = title;
+    taskData.taskDescription = desc;
+    taskData.dayCreated = toBeDoneBy;
 
-    fetch(`/editTask/${user_id}/${task_id}/`, {
+    fetch(`http://localhost:3308/editTask/${user_id}/${task_id}/`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(taskData),
     })
       .then((response) => {
         if (response.ok) {
