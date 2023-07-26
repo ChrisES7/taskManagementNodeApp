@@ -60,9 +60,9 @@ function loadHTMLTable(data) {
     // add iframe of the edit page,which is an html of itself
     // in that html i have sent a edit/userid/taskId
     let userId = null;
+    let taskIdNb = null;
     data.forEach((task) => {
       // console.log("TSSK OUTSIDE : ");
-      // console.log(task);
 
       const newTaskDiv = document.createElement("div");
       newTaskDiv.classList.add("newTaskDiv");
@@ -78,6 +78,7 @@ function loadHTMLTable(data) {
 
       showMoreDiv.classList.add("showMoreDiv");
       showMoreDiv.appendChild(showMore);
+      newTaskDivDiv.appendChild(showMoreDiv);
 
       const deleteBtnDiv = document.createElement("div");
       deleteBtnDiv.classList.add("deleteBtnDiv");
@@ -99,12 +100,9 @@ function loadHTMLTable(data) {
       stickDiv.classList.add("stickDiv");
       const horizontalStickDiv = document.createElement("div");
       horizontalStickDiv.classList.add("horizontalStickDiv");
-
       const taskTitleDescDiv = document.createElement("div");
-
       const taskOptionsDiv = document.createElement("div");
       taskOptionsDiv.classList.add("taskOptionsDiv");
-
       Object.values(task).forEach((value) => {
         // for each task, not foreach value
         // console.log("TASK :");
@@ -113,42 +111,40 @@ function loadHTMLTable(data) {
         // console.log(value); // sends each value ("chores")
         // idText.textContent = "test";
         // newTaskDiv.appendChild(idText);
-
         switch (
           valueNb // i need beautiful fonts,color palettes and animations
         ) {
           case 0:
-            // console.log("USER_ID : " + value);
-            // console.log(userId);
+            console.log("USER_ID : " + value);
+            console.log(userId);
             userId = value;
-            // console.log(userId);
+            console.log(userId);
             break;
           case 1:
-            // console.log("TASK_ID : " + value);
+            console.log("TASK_ID : " + value);
             const taskIdDiv = document.createElement("div");
             const taskId = document.createElement("h1");
-            taskId.textContent = value;
+            taskIdNb = value;
+            taskId.textContent = taskIdNb;
             taskIdDiv.appendChild(taskId);
             taskIdDiv.classList.add("taskIdDiv");
             newTaskDiv.appendChild(taskIdDiv);
-            // console.log(taskId);
+            console.log(taskId);
             showMore.setAttribute("id", taskId.textContent);
+            deleteBtn.setAttribute("id", taskId.textContent);
             break;
           case 2:
-            // console.log("TASK_TITLE : " + value);
+            console.log("TASK_TITLE : " + value);
             // for every task, you can click on a button
-
             const taskTitleDiv = document.createElement("div");
             const taskTitle = document.createElement("h2");
-
-            // console.log("LENGTH : " + value.length);
+            console.log("LENGTH : " + value.length);
             if (value.length > length) {
               //at the end, add ... and append show more link
               taskTitle.textContent = value.substr(0, length) + "\u2026";
             } else {
               taskTitle.textContent = value;
             }
-
             taskTitleDiv.appendChild(taskTitle);
             taskTitleDiv.classList.add("taskTitleDiv");
             taskTitleDescDiv.appendChild(taskTitleDiv);
@@ -156,7 +152,7 @@ function loadHTMLTable(data) {
             taskTitleDescDiv.appendChild(horizontalStickDiv);
             break;
           case 3:
-            // console.log("TASK DESCRIPTION : " + value);
+            console.log("TASK DESCRIPTION : " + value);
             const taskDescDiv = document.createElement("div");
             const taskDesc = document.createElement("h2");
             if (value.length > length) {
@@ -173,10 +169,10 @@ function loadHTMLTable(data) {
             newTaskDiv.appendChild(stickDiv);
             break;
           case 4:
-            // console.log("DAY CREATED : " + value);
+            console.log("DAY CREATED : " + value);
             break;
           case 5:
-            // console.log("TO BE DONE BY : " + value);
+            console.log("TO BE DONE BY : " + value);
             const doneByDiv = document.createElement("div");
             const doneByDate = document.createElement("h2");
             // doneByDate.textContent = value;
@@ -194,19 +190,23 @@ function loadHTMLTable(data) {
       taskListDiv.appendChild(taskOptionsDiv);
       mainDiv.appendChild(outerDiv);
       valueNb = 0; // resets before going to second task
-      // console.log(userId);
+      console.log(userId);
+      console.log(taskIdNb);
       showMore.addEventListener("click", (event) => {
         let taskId = event.target.id;
-        // console.log(taskId);
-        // console.log(userId);
+        console.log(taskId);
+        console.log(userId);
         popupEdit(userId, taskId);
-        taskId = null;
+      });
+      deleteBtn.addEventListener("click", (event) => {
+        let taskId = event.target.id;
+        console.log(event.target.id);
+        deleteTask(userId, taskId);
       });
     });
     document.body.appendChild(mainDiv);
   }
 }
-
 function closePopUp() {
   let filterBlur = document.querySelector(".filterBlur");
   let popUpWindow = document.querySelector(".popUpEditWindow");
@@ -228,9 +228,8 @@ function popupEdit(user_id, task_id) {
   // variable and put the variables in a data object,in json format
   //
   //
-  console.log("task_id " + task_id);
-  const taskData = {};
-
+  let taskData = {};
+  console.log(taskData);
   let filterBlur = document.querySelector(".filterBlur");
   let popUpWindow = document.querySelector(".popUpEditWindow");
   popUpWindow.style.width = "600px";
@@ -243,21 +242,18 @@ function popupEdit(user_id, task_id) {
   popUpWindow.style.zIndex = "5";
   let taskDesc = document.querySelector(".textAreasDiv textarea");
   taskDesc.setAttribute("rows", "15");
-
   // let closePopUpButton = document.querySelector(".closePopUp");
-
-  fetch(`http://localhost:3308/getUserTasks/${user_id}`)
+  fetch(`http://localhost:3308/getUserTask/${user_id}/${task_id}`)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data); // data is all the tasks from the table, i need to specify user
+      console.log(data); // data is the specific task
       getTaskData(data);
     })
     .catch((error) => {
       console.error(error);
     });
-
-  function getTaskData(taskData) {
-    // let taskDesc = document.querySelector(".textAreasDiv textarea");
+  function getTaskData(data) {
+    let newTaskDesc = document.querySelector(".textAreasDiv textarea");
     let taskName = document.querySelector(
       ".textAreasDiv div input[type='text']"
     );
@@ -265,37 +261,36 @@ function popupEdit(user_id, task_id) {
     const createdOn = dateInputContainer.querySelector(
       'input[name="taskCreated"]'
     );
-    const doneBy = dateInputContainer.querySelector('input[name="taskDoneBy"]');
-    let taskValueNb = 0;
 
-    taskData.forEach((task) => {
+    const doneBy = dateInputContainer.querySelector('input[name="taskDoneBy"]');
+    taskName.value = "";
+    newTaskDesc.value = "";
+    createdOn.value = "";
+    doneBy.value = "";
+    console.log(newTaskDesc.value + " " + taskName.value + " " + doneBy.value);
+    let taskValueNb = 0;
+    data.forEach((task) => {
       if (task.task_id == task_id) {
-        console.log(task);
         Object.values(task).forEach((value) => {
           console.log("valueee = " + value);
-
           switch (taskValueNb) {
             case 2:
-              taskName.setAttribute("value", value);
-
+              taskName.value = value;
               break;
             case 3:
-              // console.log(value);
-              taskDesc.textContent = value;
-
+              console.log(value);
+              newTaskDesc.value = value;
               break;
             case 4:
               let formattedDate = value.substr(0, 10);
-              createdOn.setAttribute("value", formattedDate);
-
+              createdOn.value = formattedDate;
               break;
             case 5:
               let today = new Date().toISOString().split("T")[0];
-              // console.log(today);
-              // console.log(value);
-              doneBy.setAttribute("value", value.substr(0, 10));
+              console.log(today);
+              console.log(value);
+              doneBy.value = value.substr(0, 10);
               doneBy.setAttribute("min", today);
-
               break;
           }
           taskValueNb += 1;
@@ -307,43 +302,65 @@ function popupEdit(user_id, task_id) {
   let editButton = document.querySelector(
     ".taskEditSubmitDiv input[type='submit']"
   );
-  editButton.addEventListener("click", async function editTask(event) {
-    event.preventDefault(); // Prevent the default form submission behavior (page refresh)
-
+  editButton.addEventListener("click", function editTask() {
     let title = document.querySelector("input[name='taskName']").value;
+    console.log(title);
     let desc = taskDesc.value;
+    console.log(desc);
     let toBeDoneBy = document.querySelector("#doneByDate").value;
+    console.log("ATTR : " + title + " " + desc + " " + toBeDoneBy);
     taskData.taskTitle = title;
     taskData.taskDescription = desc;
     taskData.dayDoneBy = toBeDoneBy;
     console.log(taskData);
-    console.log(user_id);
-    console.log(task_id);
-    try {
-      const response = await fetch(
-        `http://localhost:3308/editTask/${user_id}/${task_id}/`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(taskData),
+    fetch(`http://localhost:3308/editTask/${user_id}/${task_id}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(taskData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log("Row edited successfully");
+          fetch(`http://localhost:3308/getUserTasks/${user_id}`)
+            .then((response) => response.json())
+            .then((data) => {
+              loadHTMLTable(data); // Reload the table with updated data
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        } else {
+          console.error("Error updating row");
         }
-      );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
+}
 
+function deleteTask(userId, taskId) {
+  fetch(`http://localhost:3308/deleteTask/${userId}/${taskId}/`, {
+    method: "DELETE",
+  })
+    .then((response) => {
       if (response.ok) {
         console.log("Row edited successfully");
-        const updatedDataResponse = await fetch(
-          `http://localhost:3308/getUserTasks/${user_id}`
-        );
-        const updatedData = await updatedDataResponse.json();
-        loadHTMLTable(updatedData); // Reload the table with updated data
+        fetch(`http://localhost:3308/getUserTasks/${userId}`)
+          .then((response) => response.json())
+          .then((data) => {
+            loadHTMLTable(data); // Reload the table with updated data
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       } else {
-        //
         console.error("Error updating row");
       }
-    } catch (error) {
+    })
+    .catch((error) => {
       console.error(error);
-    }
-  });
+    });
 }

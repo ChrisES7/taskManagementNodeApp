@@ -186,7 +186,40 @@ app.get("/getUserTasks/:id", (req, res) => {
     // get username from params from url?
     const query = "SELECT * FROM tasks WHERE user_id = ?";
     connection.query(query, id, (err, result) => {
-      console.log(result);
+      // console.log(result);
+      connection.release(); // Release the connection back to the pool
+
+      if (err) {
+        console.error("Error inserting data into MySQL database: " + err.stack);
+        res.status(500).send("Error inserting data into MySQL database.");
+        return;
+      }
+      console.log("Data gotten from MySQL database.");
+      res.json(result); // Send the result as JSON response
+    });
+  });
+});
+
+app.get("/getUserTask/:user_id/:task_id", (req, res) => {
+  const user_id = req.params.user_id;
+  const task_id = req.params.task_id;
+  console.log("User Task " + task_id);
+
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error(
+        "Error getting connection from MySQL database pool: " + err.stack
+      );
+      res
+        .status(500)
+        .send("Error getting connection from MySQL database pool.");
+      return;
+    }
+    // get username from params from url?
+    const query = "SELECT * FROM tasks WHERE user_id = ? AND task_id = ?";
+    const values = [user_id, task_id];
+    connection.query(query, values, (err, result) => {
+      // console.log(result);
       connection.release(); // Release the connection back to the pool
 
       if (err) {
@@ -282,9 +315,36 @@ app.put("/editTask/:userId/:taskId/", (req, res) => {
   });
 });
 
-app.delete("/delete/:userId/:taskId/", (req, res) => {
+app.delete("/deleteTask/:userId/:taskId/", (req, res) => {
   const userId = req.params.userId;
   const taskId = req.params.taskId;
+
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error(
+        "Error getting connection from MySQL database pool: " + err.stack
+      );
+      res
+        .status(500)
+        .send("Error getting connection from MySQL database pool.");
+      return;
+    }
+
+    const query = "DELETE FROM tasks WHERE user_id = ? AND task_id = ? ";
+    const values = [userId, taskId];
+    console.log("VALUES : " + values);
+    connection.query(query, values, (err, result) => {
+      connection.release();
+
+      if (err) {
+        console.error("Error searching data in MySQL database: " + err.stack);
+        res.status(500).send("Error searching data in MySQL database.");
+        return;
+      }
+
+      res.json(result); // Return the matching results as JSON
+    });
+  });
 });
 
 app.listen(3308, console.log("Up and Running"));

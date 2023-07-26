@@ -212,13 +212,11 @@ h2 {
     0
   ); /* Semi-transparent background to create the overlay effect */
   backdrop-filter: blur(0px); /* go from 0 to 5 */
-
   display: flex;
   justify-content: center;
   align-items: center;
   transition: 0.6s ease;
 }
-
 .popUpEditWindow {
   display: flex;
   flex-direction: row;
@@ -235,7 +233,6 @@ h2 {
   transition-delay: 0.1s;
   opacity: 0;
 }
-
 .popUpEditWindow label {
   font-family: "COCOGOOSE";
   color: #8a9098;
@@ -245,27 +242,23 @@ h2 {
   flex-direction: column;
   padding: 10px;
 }
-
 .textAreasDiv div {
   display: flex;
   flex-direction: row;
   margin-bottom: 5px;
 }
-
 .textAreasDiv input[type="text"] {
   transition: box-shadow 0.5s linear;
   outline: none;
   box-shadow: 1px #8a9098;
 }
 /* Remove the extra outline later */
-
 .textAreasDiv textarea {
   transition: box-shadow 0.5s linear;
   outline: none;
   box-shadow: 1px #8a9098;
   resize: none;
 }
-
 .textAreasDiv textarea:focus {
   box-shadow: 3px 3px #8a9098;
   transition: 0.6s ease;
@@ -276,7 +269,6 @@ h2 {
   outline: none;
   transition: 0.6s ease;
 }
-
 .dateAreasDiv {
   padding: 10px;
 }
@@ -285,11 +277,9 @@ h2 {
   flex-direction: column;
   flex-grow: 1;
 }
-
 .dateAreasDiv label {
   font-size: 12pt;
 }
-
 .dateAreasDiv input[type="date"] {
   background-color: #8a9098;
   color: white;
@@ -300,13 +290,11 @@ h2 {
   padding: 2px 4px;
   border-radius: 5px;
 }
-
 .taskEditSubmitDiv {
   position: relative;
   bottom: 0px;
   margin-top: 20px;
 }
-
 .taskEditSubmitDiv input[type="submit"] {
   color: white;
   padding: 8px 13px;
@@ -317,14 +305,12 @@ h2 {
   outline: none;
   transition: 0.3s ease;
 }
-
 .taskEditSubmitDiv input[type="submit"]:hover {
   border-radius: 4px;
   background-color: #00c95a;
   transition: 0.3s ease-out;
   cursor: pointer;
 }
-
 .taskEditSubmitDiv input[type="submit"]:active {
   /* padding: 5px 11px; */
   transform: scale(0.8);
@@ -333,7 +319,6 @@ h2 {
 }
 .taskEditSubmitDiv input[type="submit"]:focus {
 }
-
 .closePopUp {
   border: none;
   outline: none;
