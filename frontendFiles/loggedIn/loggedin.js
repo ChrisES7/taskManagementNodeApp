@@ -1,21 +1,44 @@
 console.log("Javascript Loaded");
 
-document.addEventListener("DOMContentLoaded", function () {
-  fetch(`http://localhost:3308/getUserTasks/1`)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data); // data is all the tasks from the table, i need to specify user
-      loadHTMLTable(data);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+document.addEventListener("DOMContentLoaded", async function () {
+  try {
+    // Fetch the sessionId from the server
+    console.log("Fetching session ID...");
+    const sessionResponse = await fetch("/getSessionId/", { method: "GET" });
+    if (sessionResponse.ok) {
+      // Extract the sessionId from the response
+      const sessionData = await sessionResponse.json();
+      console.log("Session Data:", sessionData);
+      const sessionId = sessionData.userId;
 
-  // fetch
+      // Now you can use the sessionId as needed
+      console.log("Session ID:", sessionId);
+
+      // Fetch user tasks using the sessionId or any other action you need
+      console.log("Fetching user tasks...");
+      const userTasksResponse = await fetch(
+        `http://localhost:3308/getUserTasks/${sessionId}`
+      );
+      if (userTasksResponse.ok) {
+        const userData = await userTasksResponse.json();
+        // console.log(userData, sessionId);
+        loadHTMLTable(userData, sessionId);
+      } else {
+        console.error(
+          "Error fetching user tasks:",
+          userTasksResponse.statusText
+        );
+      }
+    } else {
+      console.error("Error fetching session ID:", sessionResponse.statusText);
+    }
+  } catch (error) {
+    console.error("An error occurred:", error);
+  }
 });
 let i = 0;
 let idNow = null;
-function loadHTMLTable(data) {
+function loadHTMLTable(data, userSessionId) {
   const mainDiv = document.querySelector(".mainDiv");
   mainDiv.innerHTML = "";
   let taskNb = 0; // Initialize taskNb variable
@@ -24,7 +47,13 @@ function loadHTMLTable(data) {
 
   const welcomeBack = document.querySelector("#welcomeBack");
   // find a way to get username from other table
-  const currentUserId = data[0].user_id;
+  console.log(data.length);
+  if (data.length == 0) {
+    console.log("There are no tasks");
+    //append a div element
+    return;
+  }
+  const currentUserId = userSessionId; //data[0].user_id;
   fetch(`http://localhost:3308/getUsername/${currentUserId}`)
     .then((response) => response.json())
     .then((dataUsername) => {

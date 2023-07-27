@@ -6,9 +6,17 @@ const dotenv = require("dotenv");
 const mysql = require("mysql");
 dotenv.config();
 let dateNow = null;
+const session = require("express-session");
 
 const mime = require("mime");
-
+// Set up session middleware
+app.use(
+  session({
+    secret: "your-secret-key", // Replace with a secret key for session encryption
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 app.use(
   express.static("public", {
     setHeaders: (res, filePath) => {
@@ -126,7 +134,7 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, user_id } = req.body;
 
   // Your logic to verify the login credentials against the MySQL database
 
@@ -157,13 +165,53 @@ app.post("/login", (req, res) => {
       if (results.length > 0) {
         // The login credentials are correct
         // res.send("Login successful");
-        res.redirect("/?valid=loggedIn");
+        req.session.userId = user_id;
+        console.log("ID : " + req.session.userId);
+        res.json({ userId: user_id }); // Sending the userId as JSON response
       } else {
         // Invalid login credentials
         res.status(401).send("Invalid username or password");
       }
     });
   });
+});
+app.get("/getUserId/:username", (req, res) => {
+  let username = req.params.username;
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error(
+        "Error getting connection from MySQL database pool: " + err.stack
+      );
+      res
+        .status(500)
+        .send("Error getting connection from MySQL database pool.");
+      return;
+    }
+    // get username from params from url?
+    const query = "SELECT user_id FROM users WHERE username = ?";
+    connection.query(query, username, (err, result) => {
+      // console.log(result);
+      connection.release(); // Release the connection back to the pool
+
+      if (err) {
+        console.error("Error inserting data into MySQL database: " + err.stack);
+        res.status(500).send("Error inserting data into MySQL database.");
+        return;
+      }
+      console.log("Data gotten from MySQL database.");
+      res.json(result); // Send the result as JSON response
+    });
+  });
+});
+
+app.get("/getSessionId/", (req, res) => {
+  const userId = req.session.userId;
+
+  // Use the userId as needed
+  console.log("User ID:", userId);
+
+  // Render the destination page
+  res.json({ userId: userId });
 });
 
 // this gets all the results from mysql and turns them into json,
@@ -172,7 +220,7 @@ app.post("/login", (req, res) => {
 app.get("/getUserTasks/:id", (req, res) => {
   const id = req.params.id;
   console.log("Posted Login");
-
+  console.log(id);
   pool.getConnection((err, connection) => {
     if (err) {
       console.error(
@@ -264,7 +312,8 @@ app.get("/getUsername/:id", (req, res) => {
   });
 });
 
-app.get("/loggedIn", (req, res) => {
+app.get("/loggedIn/:id", (req, res) => {
+  let user_id = req.params.id;
   res.sendFile(`./frontEndFiles/loggedIn/index.html`, {
     root: path.join(__dirname, "../"),
   });
