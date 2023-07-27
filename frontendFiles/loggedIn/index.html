@@ -8,7 +8,28 @@
   <body>
     <h2 id="welcomeBack">Welcome back!</h2>
 
-    <div class="mainDiv"></div>
+    <div class="taskssDiv">
+      <div class="mainDiv"></div>
+      <div class="createTaskDiv">
+        <form class="createTaskForm" action="/createTask" method="post">
+          <h1>
+            Add a new task
+          </h1>
+          <input type="hidden" name="userId" />
+          <input type="text" name="taskName" placeholder="Task's Name :" />
+          <input type="hidden" disabled="true" name="taskCreated" value="" />
+          <textarea
+            name="taskDesc"
+            rows="20"
+            cols="8"
+            placeholder="Task's Description :"
+          ></textarea>
+          <label for="dateToBeDoneBy">Done By :</label>
+          <input type="date" name="dateToBeDoneBy" value="" />
+          <input type="submit" name="" value="Create" />
+        </form>
+      </div>
+    </div>
 
     <div class="filterBlur">
       <div class="popUpEditWindow">

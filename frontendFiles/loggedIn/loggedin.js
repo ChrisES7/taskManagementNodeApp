@@ -39,6 +39,27 @@ document.addEventListener("DOMContentLoaded", async function () {
 let i = 0;
 let idNow = null;
 function loadHTMLTable(data, userSessionId) {
+  let createTaskForm = document.querySelector(".createTaskForm");
+  let taskFormUserId = document.querySelector(
+    ".createTaskForm input[type='hidden']"
+  );
+  taskFormUserId.value = userSessionId;
+  let today = new Date().toISOString().split("T")[0];
+  let doneByDate = document.querySelector(
+    '.createTaskForm input[name="dateToBeDoneBy"]'
+  );
+  doneByDate.setAttribute("min", today);
+  let doneByLabel = document.querySelector(".createTaskForm label");
+  let inputTodayDate = document.querySelector(
+    '.createTaskForm input[name="taskCreated"]'
+  );
+  inputTodayDate.type = "date";
+  inputTodayDate.value = today;
+  // inputTodayDate.disabled = "true";
+  // inputTodayDate.name = "taskCreated";
+  console.log(inputTodayDate.value);
+  // createTaskForm.insertBefore(inputTodayDate, doneByLabel);
+
   const mainDiv = document.querySelector(".mainDiv");
   mainDiv.innerHTML = "";
   let taskNb = 0; // Initialize taskNb variable
@@ -52,6 +73,7 @@ function loadHTMLTable(data, userSessionId) {
     console.log("There are no tasks");
     //append a div element
     return;
+  } else {
   }
   const currentUserId = userSessionId; //data[0].user_id;
   fetch(`http://localhost:3308/getUsername/${currentUserId}`)
@@ -233,7 +255,7 @@ function loadHTMLTable(data, userSessionId) {
         deleteTask(userId, taskId);
       });
     });
-    document.body.appendChild(mainDiv);
+    document.querySelector(".taskssDiv").appendChild(mainDiv);
   }
 }
 function closePopUp() {

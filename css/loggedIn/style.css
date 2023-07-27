@@ -18,6 +18,70 @@ body {
   background-color: #fd4c66;
 }
 
+.taskssDiv {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.createTaskDiv {
+  background-color: #85a2f2;
+  border-radius: 12px;
+  border: 6px solid #507cf5;
+}
+
+.createTaskForm {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.createTaskForm h1 {
+  font-family: "COCOGOOSE";
+  font-size: 12pt;
+  padding: 0px;
+  margin: 0px 0px 5px 0px;
+  color: white;
+}
+
+.createTaskForm input /*[name="username"]*/ {
+  border: none;
+  outline: none;
+  padding: 4px;
+  border-radius: 3px;
+  margin: 4px 0px;
+}
+
+.createTaskForm textarea {
+  border: none;
+  outline: none;
+  border-radius: 3px;
+  margin: 4px 0px;
+  resize: none;
+}
+
+.createTaskForm label {
+  font-family: "COCOGOOSE";
+  font-size: 10pt;
+  padding: 0px;
+  margin: 2px 0px 2px 0px;
+  color: white;
+}
+
+.createTaskForm input[type="submit"] {
+  background-color: #f6f6f5;
+  color: #5b78cf;
+  font-family: "COCOGOOSE";
+  transition: 0.3s;
+}
+
+.createTaskForm input[type="submit"]:hover {
+  background-color: #cad0e0;
+  color: #5f85f5;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
 .mainDiv {
   width: 80%;
   display: flex;
@@ -80,7 +144,7 @@ h2 {
 .newTaskDiv {
   background-color: #507cf5;
   border-radius: 20px 20px 0px 0px;
-  padding: 10px 15px;
+  padding: 6px 15px;
   /* width: 40%; */
   display: flex;
   flex-direction: row;
@@ -96,7 +160,7 @@ h2 {
   width: 100%;
   background-color: #85a2f2;
   text-align: center;
-  padding: 10px 0px;
+  padding: 5px 0px;
   cursor: pointer;
   transition: 0.8s ease;
 }
@@ -110,6 +174,7 @@ h2 {
   /* width: 100%; */
   text-align: center;
   font-family: "COCOGOOSE";
+  font-size: 10pt;
 }
 
 .newTaskDivDiv {
@@ -122,9 +187,10 @@ h2 {
 
 .taskIdDiv h1 {
   margin: 0px;
+  font-size: 15pt;
 }
 .taskIdDiv {
-  padding: 15px 25px;
+  padding: 6px 13px;
   background-color: lightblue;
   border-radius: 20px;
 }
@@ -132,6 +198,7 @@ h2 {
 .taskTitleDiv h1,
 h2 {
   margin: 5px 0px;
+  font-size: 12pt;
 }
 
 .taskDescDiv {
@@ -166,7 +233,7 @@ h2 {
   padding: 10px 0px;
   background-color: #fd4c66;
   text-align: center;
-  padding: 10px 0px;
+  padding: 5px 0px;
   cursor: pointer;
   width: 20%;
   transition: 0.8s ease;
@@ -183,7 +250,7 @@ h2 {
   border: none;
   font-family: sans-serif;
   color: white;
-  font-size: 12pt;
+  font-size: 10pt;
   text-align: center;
   font-family: "COCOGOOSE";
 }
@@ -204,7 +271,7 @@ h2 {
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 0; /* Ensure the filterBlur div is below the popUpEditWindow */
+  z-index: -1; /* Ensure the filterBlur div is below the popUpEditWindow */
   background-color: rgba(
     0,
     0,

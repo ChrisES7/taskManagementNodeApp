@@ -396,4 +396,40 @@ app.delete("/deleteTask/:userId/:taskId/", (req, res) => {
   });
 });
 
+app.post("/createTask/", (req, res) => {
+  pool.getConnection((err, connection) => {
+    if (err) {
+      console.error(
+        "Error getting connection from MySQL database pool: " + err.stack
+      );
+      res
+        .status(500)
+        .send("Error getting connection from MySQL database pool.");
+      return;
+    }
+    let user_id = req.body.userId;
+    let taskName = req.body.taskName;
+    let taskDesc = req.body.taskDesc;
+    let doneBy = req.body.dateToBeDoneBy;
+    let taskCreated = req.body.taskCreated;
+    console.log(req.body.taskCreated);
+    console.log(req.body.dateToBeDoneBy);
+    console.log(user_id);
+    const values = [user_id, taskName, taskDesc, taskCreated, doneBy];
+
+    const query =
+      "INSERT INTO tasks (user_id,taskTitle,taskDescription,dayCreated,toBeDoneBy) VALUES (?,?,?,?,?)";
+    connection.query(query, values, (err, result) => {
+      connection.release();
+      if (err) {
+        console.error("Error inserting data into MySQL database: " + err.stack);
+        res.status(500).send("Error inserting data into MySQL database.");
+        return;
+      }
+
+      res.status(200).send("Data presnted from MySQL database.");
+    });
+  });
+});
+
 app.listen(3308, console.log("Up and Running"));
