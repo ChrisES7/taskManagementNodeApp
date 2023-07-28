@@ -312,8 +312,7 @@ app.get("/getUsername/:id", (req, res) => {
   });
 });
 
-app.get("/loggedIn/:id", (req, res) => {
-  let user_id = req.params.id;
+app.get("/loggedIn/", (req, res) => {
   res.sendFile(`./frontEndFiles/loggedIn/index.html`, {
     root: path.join(__dirname, "../"),
   });
@@ -426,8 +425,8 @@ app.post("/createTask/", (req, res) => {
         res.status(500).send("Error inserting data into MySQL database.");
         return;
       }
-
-      res.status(200).send("Data presnted from MySQL database.");
+      res.redirect(`/loggedIn/${user_id}`);
+      // res.status(200).send("Data presnted from MySQL database.");
     });
   });
 });

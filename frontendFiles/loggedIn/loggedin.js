@@ -3,26 +3,23 @@ console.log("Javascript Loaded");
 document.addEventListener("DOMContentLoaded", async function () {
   try {
     // Fetch the sessionId from the server
-    console.log("Fetching session ID...");
-    const sessionResponse = await fetch("/getSessionId/", { method: "GET" });
+    const sessionResponse = await fetch("/getSessionId", { method: "GET" });
     if (sessionResponse.ok) {
       // Extract the sessionId from the response
       const sessionData = await sessionResponse.json();
-      console.log("Session Data:", sessionData);
       const sessionId = sessionData.userId;
 
       // Now you can use the sessionId as needed
       console.log("Session ID:", sessionId);
 
       // Fetch user tasks using the sessionId or any other action you need
-      console.log("Fetching user tasks...");
       const userTasksResponse = await fetch(
         `http://localhost:3308/getUserTasks/${sessionId}`
       );
       if (userTasksResponse.ok) {
         const userData = await userTasksResponse.json();
-        // console.log(userData, sessionId);
-        loadHTMLTable(userData, sessionId);
+        console.log("User Tasks Data:", userData);
+        loadHTMLTable(userData); // Assuming loadHTMLTable updates the DOM
       } else {
         console.error(
           "Error fetching user tasks:",
@@ -36,6 +33,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.error("An error occurred:", error);
   }
 });
+
 let i = 0;
 let idNow = null;
 function loadHTMLTable(data, userSessionId) {
@@ -59,6 +57,16 @@ function loadHTMLTable(data, userSessionId) {
   // inputTodayDate.name = "taskCreated";
   console.log(inputTodayDate.value);
   // createTaskForm.insertBefore(inputTodayDate, doneByLabel);
+
+  createTaskForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    // Remove the disabled attribute to include the value in the form data
+    inputTodayDate.removeAttribute("disabled");
+
+    // Now submit the form
+    createTaskForm.submit();
+  });
 
   const mainDiv = document.querySelector(".mainDiv");
   mainDiv.innerHTML = "";
