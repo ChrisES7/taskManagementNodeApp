@@ -3,23 +3,26 @@ console.log("Javascript Loaded");
 document.addEventListener("DOMContentLoaded", async function () {
   try {
     // Fetch the sessionId from the server
-    const sessionResponse = await fetch("/getSessionId", { method: "GET" });
+    console.log("Fetching session ID...");
+    const sessionResponse = await fetch("/getSessionId/", { method: "GET" });
     if (sessionResponse.ok) {
       // Extract the sessionId from the response
       const sessionData = await sessionResponse.json();
+      console.log("Session Data:", sessionData);
       const sessionId = sessionData.userId;
 
       // Now you can use the sessionId as needed
       console.log("Session ID:", sessionId);
 
       // Fetch user tasks using the sessionId or any other action you need
+      console.log("Fetching user tasks...");
       const userTasksResponse = await fetch(
         `http://localhost:3308/getUserTasks/${sessionId}`
       );
       if (userTasksResponse.ok) {
         const userData = await userTasksResponse.json();
-        console.log("User Tasks Data:", userData);
-        loadHTMLTable(userData); // Assuming loadHTMLTable updates the DOM
+        // console.log(userData, sessionId);
+        loadHTMLTable(userData, sessionId);
       } else {
         console.error(
           "Error fetching user tasks:",
@@ -33,7 +36,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.error("An error occurred:", error);
   }
 });
-
 let i = 0;
 let idNow = null;
 function loadHTMLTable(data, userSessionId) {
@@ -87,7 +89,7 @@ function loadHTMLTable(data, userSessionId) {
   fetch(`http://localhost:3308/getUsername/${currentUserId}`)
     .then((response) => response.json())
     .then((dataUsername) => {
-      // console.log(dataUsername);
+      console.log(dataUsername);
       const username = dataUsername[0].username; // data is all the tasks from the table, i need to specify user
       welcomeBack.textContent = `Welcome back ${username} ! Here are your tasks.`;
       // console.log(username);
@@ -410,7 +412,7 @@ function deleteTask(userId, taskId) {
         fetch(`http://localhost:3308/getUserTasks/${userId}`)
           .then((response) => response.json())
           .then((data) => {
-            loadHTMLTable(data); // Reload the table with updated data
+            loadHTMLTable(data, userId); // Reload the table with updated data
           })
           .catch((error) => {
             console.error(error);

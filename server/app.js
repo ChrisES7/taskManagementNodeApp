@@ -425,7 +425,7 @@ app.post("/createTask/", (req, res) => {
         res.status(500).send("Error inserting data into MySQL database.");
         return;
       }
-      res.redirect(`/loggedIn/${user_id}`);
+      res.redirect(`/?valid=loggedIn`);
       // res.status(200).send("Data presnted from MySQL database.");
     });
   });

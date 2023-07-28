@@ -19,3 +19,6 @@ name or date cannot be null when creating or editing
 
 
 have a dashboard page  that has login and register button and if request is good, the buttons div removes the buttons and appends txt with the username and nb tasks
+
+
+there's no verification yet
