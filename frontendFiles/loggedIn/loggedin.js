@@ -39,6 +39,30 @@ document.addEventListener("DOMContentLoaded", async function () {
 let i = 0;
 let idNow = null;
 function loadHTMLTable(data, userSessionId) {
+  let colorPalette = {
+    blue: {
+      background: "#507cf5",
+      openTask: "#85a2f2",
+      stickDiv: "#85a2f2",
+      idNbDiv: "lightblue",
+      deleteBtn: "#fd4c66",
+    },
+    orange: {
+      background: "#fd4c66",
+      openTask: "#85a2f2",
+      stickDiv: "#85a2f2",
+      idNbDiv: "lightblue",
+      deleteBtn: "#fd4c66",
+    },
+    red: {
+      background: "#507cf5",
+      openTask: "#85a2f2",
+      stickDiv: "#85a2f2",
+      idNbDiv: "lightblue",
+      deleteBtn: "#fd4c66",
+    },
+  };
+
   let createTaskForm = document.querySelector(".createTaskForm");
   let taskFormUserId = document.querySelector(
     ".createTaskForm input[type='hidden']"
@@ -214,17 +238,26 @@ function loadHTMLTable(data, userSessionId) {
             break;
           case 3:
             console.log("TASK DESCRIPTION : " + value);
+
             const taskDescDiv = document.createElement("div");
             const taskDesc = document.createElement("h2");
-            if (value.length > length) {
-              //at the end, add ... and append show more link
-              taskDesc.textContent = value.substr(0, length) + "\u2026";
-            } else {
-              taskDesc.textContent = value;
-            }
+
             taskDescDiv.appendChild(taskDesc);
             taskDescDiv.classList.add("taskDescDiv");
             taskTitleDescDiv.appendChild(taskDescDiv);
+
+            if (value.length > length) {
+              //at the end, add ... and append show more link
+              taskDesc.textContent = value.substr(0, length) + "\u2026";
+            } else if (value.length == 0) {
+              horizontalStickDiv.remove();
+              taskDescDiv.remove();
+              // taskTitle.style.fontSize = "20pt";
+              taskTitleDescDiv.style.width = "200px";
+            } else {
+              taskDesc.textContent = value;
+            }
+
             //if value more than 30 characters, add a ...,then read more pop ups a prompt window
             newTaskDiv.appendChild(taskTitleDescDiv);
             newTaskDiv.appendChild(stickDiv);
@@ -234,10 +267,17 @@ function loadHTMLTable(data, userSessionId) {
             break;
           case 5:
             console.log("TO BE DONE BY : " + value);
+            let today = new Date().toISOString().split("T")[0];
             const doneByDiv = document.createElement("div");
             const doneByDate = document.createElement("h2");
             // doneByDate.textContent = value;
             doneByDate.textContent = value.substr(0, 10);
+
+            if (today > doneByDate.textContent) {
+              console.log("you failed");
+              let blueColor = colorPalette.blue;
+              //change everything's colors
+            }
             doneByDiv.appendChild(doneByDate);
             // change format to 2023 on top, switch case to make the month into a word, then the day
             newTaskDiv.appendChild(doneByDiv);

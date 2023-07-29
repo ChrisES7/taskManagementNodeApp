@@ -8,6 +8,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: rgb(25, 121, 255, 0.12);
 }
 
 #firstMessageDiv > * {
@@ -18,17 +19,13 @@ body {
   background-color: #fd4c66;
 }
 
-.taskssDiv {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
 .createTaskDiv {
   background-color: #85a2f2;
   border-radius: 12px;
   border: 6px solid #507cf5;
+  /* vertical-align: top; */
+  position: sticky;
+  top: 0%;
 }
 
 .createTaskForm {
@@ -82,6 +79,15 @@ body {
   transition: 0.3s;
 }
 
+.taskssDiv {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: center;
+  /* vertical-align: top; */
+  position: relative;
+  padding: 40px 0px;
+}
 .mainDiv {
   width: 80%;
   display: flex;
@@ -107,6 +113,16 @@ h2 {
   font-size: 20pt;
 }
 
+.taskListDiv {
+  /* background-color: white; */
+  border-radius: 20px;
+  padding: 17px 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .taskOptionsDiv {
   display: flex;
   flex-direction: row;
@@ -129,16 +145,6 @@ h2 {
   margin: 10px 0px;
   border-radius: 20px;
   background-color: #85a2f2;
-}
-
-.taskListDiv {
-  background-color: white;
-  border-radius: 20px;
-  padding: 20px 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 
 .newTaskDiv {
@@ -210,6 +216,7 @@ h2 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 200px;
 }
 
 #welcomeBack {
