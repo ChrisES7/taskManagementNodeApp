@@ -51,6 +51,18 @@ const pool = mysql.createPool({
 let loggedIn = false;
 let folder = "loggedIn";
 
+// Define a custom middleware function to check the session ID
+function checkSession(req, res, next) {
+  // Check if the session ID is undefined or not present
+  if (!req.session || !req.session.userId) {
+    // User is not logged in, redirect to the home page or login page
+    return res.redirect("/"); // Replace "/" with the URL of your home page or login page
+  }
+
+  // User is logged in, continue to the next middleware or route handler
+  next();
+}
+
 app.get("/", (req, res) => {
   let passedVariable = req.query.valid;
   console.log("Passed Variable :");
@@ -204,7 +216,7 @@ app.get("/getUserId/:username", (req, res) => {
   });
 });
 
-app.get("/getSessionId/", (req, res) => {
+app.get("/getSessionId/", checkSession, (req, res) => {
   const userId = req.session.userId;
 
   // Use the userId as needed
@@ -217,7 +229,7 @@ app.get("/getSessionId/", (req, res) => {
 // this gets all the results from mysql and turns them into json,
 // they then get fetched from javascript and sent into another route
 // that redirects it to a file.
-app.get("/getUserTasks/:id", (req, res) => {
+app.get("/getUserTasks/:id", checkSession, (req, res) => {
   const id = req.params.id;
   console.log("Posted Login");
   console.log(id);
@@ -248,7 +260,7 @@ app.get("/getUserTasks/:id", (req, res) => {
   });
 });
 
-app.get("/getUserTask/:user_id/:task_id", (req, res) => {
+app.get("/getUserTask/:user_id/:task_id", checkSession, (req, res) => {
   const user_id = req.params.user_id;
   const task_id = req.params.task_id;
   console.log("User Task " + task_id);
@@ -281,7 +293,7 @@ app.get("/getUserTask/:user_id/:task_id", (req, res) => {
   });
 });
 
-app.get("/getUsername/:id", (req, res) => {
+app.get("/getUsername/:id", checkSession, (req, res) => {
   const id = req.params.id;
   console.log("getting username");
 
@@ -312,7 +324,7 @@ app.get("/getUsername/:id", (req, res) => {
   });
 });
 
-app.get("/loggedIn/", (req, res) => {
+app.get("/loggedIn/", checkSession, (req, res) => {
   res.sendFile(`./frontEndFiles/loggedIn/index.html`, {
     root: path.join(__dirname, "../"),
   });
@@ -363,7 +375,7 @@ app.put("/editTask/:userId/:taskId/", (req, res) => {
   });
 });
 
-app.delete("/deleteTask/:userId/:taskId/", (req, res) => {
+app.delete("/deleteTask/:userId/:taskId/", checkSession, (req, res) => {
   const userId = req.params.userId;
   const taskId = req.params.taskId;
 
@@ -395,7 +407,7 @@ app.delete("/deleteTask/:userId/:taskId/", (req, res) => {
   });
 });
 
-app.post("/createTask/", (req, res) => {
+app.post("/createTask/", checkSession, (req, res) => {
   pool.getConnection((err, connection) => {
     if (err) {
       console.error(
