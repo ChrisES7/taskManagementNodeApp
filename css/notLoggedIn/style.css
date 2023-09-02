@@ -4,11 +4,12 @@ body {
   align-items: center;
   justify-content: center;
 
-  margin: 20px 35px;
-  padding: 20px;
+  /* margin: 20px 35px;
+  padding: 20px; */
   /* border: 8px solid #1979ff; */
   border-radius: 5px;
-
+  margin-top: 0px;
+  /* border-top: 6px #1979ff; */
   background-color: rgb(25, 121, 255, 0.12);
 }
 
@@ -19,6 +20,9 @@ body {
 #firstMessageDiv {
   background-color: #1979ff;
   padding: 20px 35px;
+  margin: 0px;
+  width: 40%;
+  border-radius: 0px 0px 50px 50px;
 }
 
 #firstMessageDiv h2 {
@@ -29,7 +33,32 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  width: 75%;
+  margin: 5px 0px 2px;
+}
+#decideForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 #registerBtn {
+}
+
+.homeAndSidebarContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.sidebarDiv {
+width: 15%;
+}
+.homeInfoDiv {
+  width: 65%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
 }
