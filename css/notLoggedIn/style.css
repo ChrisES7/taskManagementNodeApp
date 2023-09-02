@@ -6,8 +6,10 @@ body {
 
   margin: 20px 35px;
   padding: 20px;
-  border: 8px solid #1979ff;
+  /* border: 8px solid #1979ff; */
   border-radius: 5px;
+
+  background-color: rgb(25, 121, 255, 0.12);
 }
 
 #firstMessageDiv > * {
