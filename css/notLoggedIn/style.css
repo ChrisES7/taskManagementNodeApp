@@ -45,7 +45,7 @@ body {
   width: 75%;
   margin: 5px 0px 2px;
 }
-#decideForm {
+.decideForm {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -91,8 +91,30 @@ width: 15%;
 }
 #titleDiv h1 {
   font-size: 16pt;
+  color: white;
 }
 #contentDiv {
   height: 80%;
   /* height for both divs in container wasnt 100, which is why there was empty space on top */
+color:
+#b4bbc4;
+font-family: sans-serif;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+position: relative;
+top: 0;
+}
+
+#contentDiv h1 {
+  font-size: 24pt;
+  margin: 0px;
+}
+
+/* Sidebar */
+
+.sidebar {
+  font-family: sans-serif;
+  color: #3f4d7b
 }
