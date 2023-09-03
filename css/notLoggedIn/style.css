@@ -17,6 +17,7 @@ body {
   background-color: rgb(25, 121, 255, 0.12);
 }
 
+
 #firstMessageDiv > * {
   color: white;
 }
@@ -126,5 +127,5 @@ top: 0;
 
 .sidebar {
   font-family: sans-serif;
-  color: #3f4d7b
+  color: #3f4d7b;
 }

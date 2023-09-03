@@ -3,16 +3,24 @@
   <head>
     <meta charset="utf-8" />
     <!-- <base href="/" /> -->
-    <title>Login for ToDoList</title>
-    <link rel="stylesheet" href="../css/loggedIn/style.css" />
+    <title>Login</title>
+    <link rel="stylesheet" href="../css/login/style.css" />
   </head>
   <body>
     <div id="firstMessageDiv">
       <h2>Please Login Below</h2>
       <form id="loginForm" action="/login" method="post">
-        <input type="text" name="username" placeholder="Username" />
-        <input type="text" name="password" placeholder="Password" />
+        <div class="">
+          <label for="username">Your username</label>
+          <input type="text" name="username" placeholder="JohnD17" />
+        </div>
+        <div class="">
+          <label for="password">Your username</label>
+          <input type="text" name="password" placeholder="******" />
+
+        </div>
         <button type="submit">Login</button>
+
       </form>
     </div>
   </body>

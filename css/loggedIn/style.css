@@ -11,13 +11,7 @@ body {
   background-color: rgb(25, 121, 255, 0.12);
 }
 
-#firstMessageDiv > * {
-  color: white;
-}
 
-#firstMessageDiv {
-  background-color: #fd4c66;
-}
 
 .createTaskDiv {
   background-color: #85a2f2;
