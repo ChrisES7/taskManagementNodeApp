@@ -5,7 +5,7 @@
 // }
 console.log("HELLLLOO");
 const buttons = document.querySelectorAll(".custom-button");
-const form = document.querySelector("#decideForm");
+const form = document.querySelector(".decideForm");
 
 // Add event listener to all buttons
 buttons.forEach((button) => {

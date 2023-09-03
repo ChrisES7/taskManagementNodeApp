@@ -112,6 +112,16 @@ top: 0;
   margin: 0px;
 }
 
+#contentDiv form {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#contentDiv form input[name="login"] {
+  width: 40%;
+}
 /* Sidebar */
 
 .sidebar {
