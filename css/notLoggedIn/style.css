@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -18,7 +22,7 @@ body {
 }
 
 #firstMessageDiv {
-  background-color: #1979ff;
+  background-color: #ced8e4;
   padding: 20px 35px;
   margin: 0px;
   width: 50%;
@@ -62,27 +66,33 @@ body {
 width: 15%;
 }
 .homeInfoDiv {
-  width: 45%;
+  width: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
     background-color: #f1f7fe;
-    margin: 50px 210px ;
-    padding: 0px 20px;
+    margin: 50px 230px ;
+    padding: 0px 0px;
     height: 300px;
     border-radius: 40px;
 }
 #titleDiv {
-  width: 90%;
+  width: 100%;
   height: 20%;
   margin-top: 0px;
+  padding: 10px 40px;
   display: flex;
-
-  align-items: flex-end;
+  background-color: #ced8e4;
+  border-radius: 40px 40px 0px 0px;;
+  align-items: center;
     justify-content: flex-start;
     flex-wrap: nowrap;
 }
+#titleDiv h1 {
+  font-size: 16pt;
+}
 #contentDiv {
-  height: 70%;
+  height: 80%;
+  /* height for both divs in container wasnt 100, which is why there was empty space on top */
 }
