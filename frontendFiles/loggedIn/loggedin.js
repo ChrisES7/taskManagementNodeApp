@@ -1,10 +1,12 @@
 console.log("Javascript Loaded");
 
-document.addEventListener("DOMContentLoaded", async function () {
+document.addEventListener("DOMContentLoaded", async function() {
   try {
     // Fetch the sessionId from the server
     console.log("Fetching session ID...");
-    const sessionResponse = await fetch("/getSessionId/", { method: "GET" });
+    const sessionResponse = await fetch("/getSessionId/", {
+      method: "GET"
+    });
     if (sessionResponse.ok) {
       // Extract the sessionId from the response
       const sessionData = await sessionResponse.json();
@@ -38,6 +40,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 });
 let i = 0;
 let idNow = null;
+
 function loadHTMLTable(data, userSessionId) {
   let colorPalette = {
     blue: {
@@ -84,7 +87,7 @@ function loadHTMLTable(data, userSessionId) {
   console.log(inputTodayDate.value);
   // createTaskForm.insertBefore(inputTodayDate, doneByLabel);
 
-  createTaskForm.addEventListener("submit", function (event) {
+  createTaskForm.addEventListener("submit", function(event) {
     event.preventDefault();
 
     // Remove the disabled attribute to include the value in the form data
@@ -107,15 +110,15 @@ function loadHTMLTable(data, userSessionId) {
     console.log("There are no tasks");
     //append a div element
     return;
-  } else {
-  }
+  } else {}
   const currentUserId = userSessionId; //data[0].user_id;
   fetch(`http://localhost:3308/getUsername/${currentUserId}`)
     .then((response) => response.json())
     .then((dataUsername) => {
       console.log(dataUsername);
       const username = dataUsername[0].username; // data is all the tasks from the table, i need to specify user
-      welcomeBack.textContent = `Welcome back ${username} ! Here are your tasks.`;
+      welcomeBack.textContent =
+        `Welcome back ${username} ! Here are your tasks.`;
       // console.log(username);
     })
     .catch((error) => {
@@ -226,7 +229,8 @@ function loadHTMLTable(data, userSessionId) {
             console.log("LENGTH : " + value.length);
             if (value.length > length) {
               //at the end, add ... and append show more link
-              taskTitle.textContent = value.substr(0, length) + "\u2026";
+              taskTitle.textContent = value.substr(0, length) +
+                "\u2026";
             } else {
               taskTitle.textContent = value;
             }
@@ -308,6 +312,7 @@ function loadHTMLTable(data, userSessionId) {
     document.querySelector(".taskssDiv").appendChild(mainDiv);
   }
 }
+
 function closePopUp() {
   let filterBlur = document.querySelector(".filterBlur");
   let popUpWindow = document.querySelector(".popUpEditWindow");
@@ -316,12 +321,13 @@ function closePopUp() {
   // or maybe play with the scale
   popUpWindow.style.opacity = "0";
   filterBlur.style.backgroundColor = "rgba( 0, 0, 0, 0 )";
-  filterBlur.style.backdropFilter = "blur(0px)";
-  filterBlur.style.zIndex = "0";
-  popUpWindow.style.zIndex = "0";
+  filterBlur.style.backdropFilter = "none";
+  filterBlur.style.zIndex = "-1";
+  popUpWindow.style.zIndex = "-1";
   let taskDesc = document.querySelector(".textAreasDiv textarea");
   taskDesc.setAttribute("rows", "5");
 }
+
 function popupEdit(user_id, task_id) {
   // from here, i have the task id, so i can display
   // (dateToBeDoneBy,title,description) and a submit button in the form
@@ -353,6 +359,7 @@ function popupEdit(user_id, task_id) {
     .catch((error) => {
       console.error(error);
     });
+
   function getTaskData(data) {
     let newTaskDesc = document.querySelector(".textAreasDiv textarea");
     let taskName = document.querySelector(
@@ -415,12 +422,12 @@ function popupEdit(user_id, task_id) {
     taskData.dayDoneBy = toBeDoneBy;
     console.log(taskData);
     fetch(`http://localhost:3308/editTask/${user_id}/${task_id}/`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(taskData),
-    })
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(taskData),
+      })
       .then((response) => {
         if (response.ok) {
           console.log("Row edited successfully");
@@ -444,8 +451,8 @@ function popupEdit(user_id, task_id) {
 
 function deleteTask(userId, taskId) {
   fetch(`http://localhost:3308/deleteTask/${userId}/${taskId}/`, {
-    method: "DELETE",
-  })
+      method: "DELETE",
+    })
     .then((response) => {
       if (response.ok) {
         console.log("Row edited successfully");
