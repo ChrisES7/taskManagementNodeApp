@@ -13,6 +13,7 @@ body {
   /* border: 8px solid #1979ff; */
   border-radius: 5px;
   margin-top: 0px;
+  margin-left: 0px;
   /* border-top: 6px #1979ff; */
   background-color: rgb(25, 121, 255, 0.12);
 }
@@ -66,6 +67,15 @@ body {
 .sidebarDiv {
 width: 15%;
 }
+
+.sidebar {
+  background-color: #f1f7fe;
+  padding: 20px;
+  height: 550px;
+  width: 45%;
+  border-radius: 0px 60px 0px 60px;
+}
+
 .homeInfoDiv {
   width: 50%;
   display: flex;

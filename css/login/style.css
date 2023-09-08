@@ -53,6 +53,14 @@ body {
   margin: 5px 0px;
 }
 
+#firstMessageDiv form input[type="text"]:active{
+  border-radius: 20px;
+  border: none;
+  background-color: white;
+  padding: 20px;
+  margin: 5px 0px;
+}
+
 #loginForm label {
   width: 100%;
 }
