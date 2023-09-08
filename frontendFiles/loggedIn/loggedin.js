@@ -312,12 +312,12 @@ function loadHTMLTable(data, userSessionId) {
     document.querySelector(".taskssDiv").appendChild(mainDiv);
   }
 }
+// mettre variables ici
 
 function closePopUp() {
   let filterBlur = document.querySelector(".filterBlur");
   let popUpWindow = document.querySelector(".popUpEditWindow");
-  popUpWindow.style.width = "200px";
-  popUpWindow.style.height = "100px";
+  popUpWindow.style.transform = "scale(0.4)";
   // or maybe play with the scale
   popUpWindow.style.opacity = "0";
   filterBlur.style.backgroundColor = "rgba( 0, 0, 0, 0 )";
@@ -325,7 +325,6 @@ function closePopUp() {
   filterBlur.style.zIndex = "-1";
   popUpWindow.style.zIndex = "-1";
   let taskDesc = document.querySelector(".textAreasDiv textarea");
-  taskDesc.setAttribute("rows", "5");
 }
 
 function popupEdit(user_id, task_id) {
@@ -339,12 +338,12 @@ function popupEdit(user_id, task_id) {
   console.log(taskData);
   let filterBlur = document.querySelector(".filterBlur");
   let popUpWindow = document.querySelector(".popUpEditWindow");
-  popUpWindow.style.width = "600px";
-  popUpWindow.style.height = "400px";
+
   // or maybe play with the scale
   popUpWindow.style.opacity = "100";
+  popUpWindow.style.transform = "scale(1)";
   filterBlur.style.backgroundColor = "rgba( 0, 0, 0, 0.2 )";
-  filterBlur.style.backdropFilter = "blur(5px)";
+  // filterBlur.style.backdropFilter = "blur(5px)";
   filterBlur.style.zIndex = "4";
   popUpWindow.style.zIndex = "5";
   let taskDesc = document.querySelector(".textAreasDiv textarea");
