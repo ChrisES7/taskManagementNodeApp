@@ -5,6 +5,7 @@ var path = require("path");
 const mysql = require("mysql");
 let dateNow = null;
 const session = require("express-session");
+const validator = require("validator");
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -482,4 +483,5 @@ app.post("/createTask/", checkSession, (req, res) => {
   });
 });
 
-app.listen(3308, console.log("Up and Running"));
+const port = process.env.PORT || 3308;
+app.listen(port, console.log("Up and Running"));
