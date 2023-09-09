@@ -2,17 +2,26 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 var path = require("path");
-const dotenv = require("dotenv");
 const mysql = require("mysql");
-dotenv.config();
 let dateNow = null;
 const session = require("express-session");
+
+const dotenv = require("dotenv");
+dotenv.config();
+
+const sessionSecret = process.env.SESSION_SECRET || "your-secret-key";
+const dbHost = process.env.DB_HOST || "localhost";
+const dbUser = process.env.DB_USER || "root";
+const dbPassword = process.env.DB_PASSWORD || "kikoso17";
+const dbDatabase = process.env.DB_DATABASE || "todolist";
+
+
 
 const mime = require("mime");
 // Set up session middleware
 app.use(
   session({
-    secret: "your-secret-key", // Replace with a secret key for session encryption
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: true,
   })
@@ -36,7 +45,9 @@ app.use(express.static(__dirname + "/../"));
 
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+  extended: true
+}));
 
 const pool = mysql.createPool({
   connectionLimit: 10,
@@ -126,8 +137,10 @@ app.post("/createUser", (req, res) => {
       connection.release(); // Release the connection back to the pool
 
       if (err) {
-        console.error("Error inserting data into MySQL database: " + err.stack);
-        res.status(500).send("Error inserting data into MySQL database.");
+        console.error("Error inserting data into MySQL database: " +
+          err.stack);
+        res.status(500).send(
+          "Error inserting data into MySQL database.");
         return;
       }
       console.log("Data inserted into MySQL database.");
@@ -146,7 +159,9 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  const { username, password, user_id } = req.body;
+  const {
+    username, password, user_id
+  } = req.body;
 
   // Your logic to verify the login credentials against the MySQL database
 
@@ -179,7 +194,9 @@ app.post("/login", (req, res) => {
         // res.send("Login successful");
         req.session.userId = user_id;
         console.log("ID : " + req.session.userId);
-        res.json({ userId: user_id }); // Sending the userId as JSON response
+        res.json({
+          userId: user_id
+        }); // Sending the userId as JSON response
       } else {
         // Invalid login credentials
         res.status(401).send("Invalid username or password");
@@ -206,8 +223,10 @@ app.get("/getUserId/:username", (req, res) => {
       connection.release(); // Release the connection back to the pool
 
       if (err) {
-        console.error("Error inserting data into MySQL database: " + err.stack);
-        res.status(500).send("Error inserting data into MySQL database.");
+        console.error("Error inserting data into MySQL database: " +
+          err.stack);
+        res.status(500).send(
+          "Error inserting data into MySQL database.");
         return;
       }
       console.log("Data gotten from MySQL database.");
@@ -223,7 +242,9 @@ app.get("/getSessionId/", checkSession, (req, res) => {
   console.log("User ID:", userId);
 
   // Render the destination page
-  res.json({ userId: userId });
+  res.json({
+    userId: userId
+  });
 });
 
 // this gets all the results from mysql and turns them into json,
@@ -250,8 +271,10 @@ app.get("/getUserTasks/:id", checkSession, (req, res) => {
       connection.release(); // Release the connection back to the pool
 
       if (err) {
-        console.error("Error inserting data into MySQL database: " + err.stack);
-        res.status(500).send("Error inserting data into MySQL database.");
+        console.error("Error inserting data into MySQL database: " +
+          err.stack);
+        res.status(500).send(
+          "Error inserting data into MySQL database.");
         return;
       }
       console.log("Data gotten from MySQL database.");
@@ -276,15 +299,18 @@ app.get("/getUserTask/:user_id/:task_id", checkSession, (req, res) => {
       return;
     }
     // get username from params from url?
-    const query = "SELECT * FROM tasks WHERE user_id = ? AND task_id = ?";
+    const query =
+      "SELECT * FROM tasks WHERE user_id = ? AND task_id = ?";
     const values = [user_id, task_id];
     connection.query(query, values, (err, result) => {
       // console.log(result);
       connection.release(); // Release the connection back to the pool
 
       if (err) {
-        console.error("Error inserting data into MySQL database: " + err.stack);
-        res.status(500).send("Error inserting data into MySQL database.");
+        console.error("Error inserting data into MySQL database: " +
+          err.stack);
+        res.status(500).send(
+          "Error inserting data into MySQL database.");
         return;
       }
       console.log("Data gotten from MySQL database.");
@@ -314,8 +340,10 @@ app.get("/getUsername/:id", checkSession, (req, res) => {
       connection.release(); // Release the connection back to the pool
 
       if (err) {
-        console.error("Error inserting data into MySQL database: " + err.stack);
-        res.status(500).send("Error inserting data into MySQL database.");
+        console.error("Error inserting data into MySQL database: " +
+          err.stack);
+        res.status(500).send(
+          "Error inserting data into MySQL database.");
         return;
       }
       console.log("Data gotten from MySQL database.");
@@ -334,17 +362,19 @@ app.put("/editTask/:userId/:taskId/", (req, res) => {
   const userId = req.params.userId;
   const taskId = req.params.taskId;
 
-  const { taskTitle, taskDescription, dayDoneBy } = req.body;
+  const {
+    taskTitle, taskDescription, dayDoneBy
+  } = req.body;
   console.log(
     userId +
-      " " +
-      taskId +
-      " " +
-      taskTitle +
-      " " +
-      taskDescription +
-      " " +
-      dayDoneBy
+    " " +
+    taskId +
+    " " +
+    taskTitle +
+    " " +
+    taskDescription +
+    " " +
+    dayDoneBy
   );
   pool.getConnection((err, connection) => {
     if (err) {
@@ -359,14 +389,18 @@ app.put("/editTask/:userId/:taskId/", (req, res) => {
 
     const query =
       "UPDATE tasks SET taskTitle = ?,taskDescription = ?,toBeDoneBy = ? WHERE user_id = ? AND task_id = ? ";
-    const values = [taskTitle, taskDescription, dayDoneBy, userId, taskId];
+    const values = [taskTitle, taskDescription, dayDoneBy, userId,
+      taskId
+    ];
     console.log("VALUES : " + values);
     connection.query(query, values, (err, result) => {
       connection.release();
 
       if (err) {
-        console.error("Error searching data in MySQL database: " + err.stack);
-        res.status(500).send("Error searching data in MySQL database.");
+        console.error("Error searching data in MySQL database: " +
+          err.stack);
+        res.status(500).send(
+          "Error searching data in MySQL database.");
         return;
       }
 
@@ -390,15 +424,18 @@ app.delete("/deleteTask/:userId/:taskId/", checkSession, (req, res) => {
       return;
     }
 
-    const query = "DELETE FROM tasks WHERE user_id = ? AND task_id = ? ";
+    const query =
+      "DELETE FROM tasks WHERE user_id = ? AND task_id = ? ";
     const values = [userId, taskId];
     console.log("VALUES : " + values);
     connection.query(query, values, (err, result) => {
       connection.release();
 
       if (err) {
-        console.error("Error searching data in MySQL database: " + err.stack);
-        res.status(500).send("Error searching data in MySQL database.");
+        console.error("Error searching data in MySQL database: " +
+          err.stack);
+        res.status(500).send(
+          "Error searching data in MySQL database.");
         return;
       }
 
@@ -433,8 +470,10 @@ app.post("/createTask/", checkSession, (req, res) => {
     connection.query(query, values, (err, result) => {
       connection.release();
       if (err) {
-        console.error("Error inserting data into MySQL database: " + err.stack);
-        res.status(500).send("Error inserting data into MySQL database.");
+        console.error("Error inserting data into MySQL database: " +
+          err.stack);
+        res.status(500).send(
+          "Error inserting data into MySQL database.");
         return;
       }
       res.redirect(`/?valid=loggedIn`);
