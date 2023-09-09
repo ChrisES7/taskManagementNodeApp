@@ -133,23 +133,29 @@ app.post("/createUser", (req, res) => {
     const query =
       "INSERT INTO users (username,user_password,user_email,dateCreated,nbTasks) VALUES (?,?,?,?,?)";
     const values = [userName, password, email, dateObj, nbTasks];
+    if (!validator.isEmail(email)) {
+      res.status(400).send("Invalid email format");
+      return;
+    } else {
+      connection.query(query, values, (err, result) => {
+        connection.release(); // Release the connection back to the pool
 
-    connection.query(query, values, (err, result) => {
-      connection.release(); // Release the connection back to the pool
+        if (err) {
+          console.error(
+            "Error inserting data into MySQL database: " +
+            err.stack);
+          res.status(500).send(
+            "Error inserting data into MySQL database.");
+          return;
+        }
+        console.log("Data inserted into MySQL database.");
+        //res.status(200).send("Data presnted from MySQL database.");
 
-      if (err) {
-        console.error("Error inserting data into MySQL database: " +
-          err.stack);
-        res.status(500).send(
-          "Error inserting data into MySQL database.");
-        return;
-      }
-      console.log("Data inserted into MySQL database.");
-      //res.status(200).send("Data presnted from MySQL database.");
+        // res.sendFile("index.html", { root: path.join(__dirname, "../") });
+        res.redirect("/");
+      });
+    }
 
-      // res.sendFile("index.html", { root: path.join(__dirname, "../") });
-      res.redirect("/");
-    });
   });
 });
 
