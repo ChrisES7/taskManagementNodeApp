@@ -84,7 +84,7 @@ function loadHTMLTable(data, userSessionId) {
   inputTodayDate.value = today;
   // inputTodayDate.disabled = "true";
   // inputTodayDate.name = "taskCreated";
-  console.log(inputTodayDate.value);
+  // console.log(inputTodayDate.value);
   // createTaskForm.insertBefore(inputTodayDate, doneByLabel);
 
   createTaskForm.addEventListener("submit", function(event) {
@@ -105,7 +105,7 @@ function loadHTMLTable(data, userSessionId) {
 
   const welcomeBack = document.querySelector("#welcomeBack");
   // find a way to get username from other table
-  console.log(data.length);
+  // console.log(data.length);
   if (data.length == 0) {
     console.log("There are no tasks");
     //append a div element
@@ -115,7 +115,7 @@ function loadHTMLTable(data, userSessionId) {
   fetch(`http://localhost:3308/getUsername/${currentUserId}`)
     .then((response) => response.json())
     .then((dataUsername) => {
-      console.log(dataUsername);
+      // console.log(dataUsername);
       const username = dataUsername[0].username; // data is all the tasks from the table, i need to specify user
       welcomeBack.textContent =
         `Welcome back ${username} ! Here are your tasks.`;
@@ -203,10 +203,10 @@ function loadHTMLTable(data, userSessionId) {
           valueNb // i need beautiful fonts,color palettes and animations
         ) {
           case 0:
-            console.log("USER_ID : " + value);
-            console.log(userId);
+            // console.log("USER_ID : " + value);
+            // console.log(userId);
             userId = value;
-            console.log(userId);
+            // console.log(userId);
             break;
           case 1:
             console.log("TASK_ID : " + value);
@@ -278,7 +278,7 @@ function loadHTMLTable(data, userSessionId) {
             doneByDate.textContent = value.substr(0, 10);
 
             if (today > doneByDate.textContent) {
-              console.log("you failed");
+              // console.log("you failed");
               let blueColor = colorPalette.blue;
               //change everything's colors
             }
@@ -295,17 +295,17 @@ function loadHTMLTable(data, userSessionId) {
       taskListDiv.appendChild(taskOptionsDiv);
       mainDiv.appendChild(outerDiv);
       valueNb = 0; // resets before going to second task
-      console.log(userId);
-      console.log(taskIdNb);
+      // console.log(userId);
+      // console.log(taskIdNb);
       showMore.addEventListener("click", (event) => {
         let taskId = event.target.id;
-        console.log(taskId);
-        console.log(userId);
+        // console.log(taskId);
+        // console.log(userId);
         popupEdit(userId, taskId);
       });
       deleteBtn.addEventListener("click", (event) => {
         let taskId = event.target.id;
-        console.log(event.target.id);
+        // console.log(event.target.id);
         deleteTask(userId, taskId);
       });
     });
@@ -335,7 +335,7 @@ function popupEdit(user_id, task_id) {
   //
   //
   let taskData = {};
-  console.log(taskData);
+  // console.log(taskData);
   let filterBlur = document.querySelector(".filterBlur");
   let popUpWindow = document.querySelector(".popUpEditWindow");
 
@@ -385,7 +385,7 @@ function popupEdit(user_id, task_id) {
               taskName.value = value;
               break;
             case 3:
-              console.log(value);
+              // console.log(value);
               newTaskDesc.value = value;
               break;
             case 4:
@@ -394,8 +394,8 @@ function popupEdit(user_id, task_id) {
               break;
             case 5:
               let today = new Date().toISOString().split("T")[0];
-              console.log(today);
-              console.log(value);
+              // console.log(today);
+              // console.log(value);
               doneBy.value = value.substr(0, 10);
               doneBy.setAttribute("min", today);
               break;
@@ -411,15 +411,15 @@ function popupEdit(user_id, task_id) {
   );
   editButton.addEventListener("click", function editTask() {
     let title = document.querySelector("input[name='taskName']").value;
-    console.log(title);
+    // console.log(title);
     let desc = taskDesc.value;
-    console.log(desc);
+    // console.log(desc);
     let toBeDoneBy = document.querySelector("#doneByDate").value;
-    console.log("ATTR : " + title + " " + desc + " " + toBeDoneBy);
+    // console.log("ATTR : " + title + " " + desc + " " + toBeDoneBy);
     taskData.taskTitle = title;
     taskData.taskDescription = desc;
     taskData.dayDoneBy = toBeDoneBy;
-    console.log(taskData);
+    // console.log(taskData);
     fetch(`http://localhost:3308/editTask/${user_id}/${task_id}/`, {
         method: "PUT",
         headers: {
@@ -429,11 +429,11 @@ function popupEdit(user_id, task_id) {
       })
       .then((response) => {
         if (response.ok) {
-          console.log("Row edited successfully");
+          // console.log("Row edited successfully");
           fetch(`http://localhost:3308/getUserTasks/${user_id}`)
             .then((response) => response.json())
             .then((data) => {
-              loadHTMLTable(data); // Reload the table with updated data
+              loadHTMLTable(data, user_id); // Reload the table with updated data
             })
             .catch((error) => {
               console.error(error);
@@ -454,7 +454,7 @@ function deleteTask(userId, taskId) {
     })
     .then((response) => {
       if (response.ok) {
-        console.log("Row edited successfully");
+        // console.log("Row edited successfully");
         fetch(`http://localhost:3308/getUserTasks/${userId}`)
           .then((response) => response.json())
           .then((data) => {

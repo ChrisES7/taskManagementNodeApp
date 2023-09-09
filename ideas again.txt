@@ -22,3 +22,9 @@ have a dashboard page  that has login and register button and if request is good
 
 
 there's no verification yet
+
+
+September 8th ---- use cookies to check if user recognized, then keep him auto logged in
+if logged in, have a log out button in home and have username on home page
+
+on tasks page, have a home link
