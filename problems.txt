@@ -1,2 +1,5 @@
 Edit Task button redirects you back to home
 Values change in edit popup
+
+addin manual error red border, but even register just immediately sends to / when error;
+font changes on button hover for regsiter and maybe others
