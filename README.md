@@ -1,6 +1,5 @@
 ### Express JS and Javascript To-Do List Web App
 
-!(https://github.com/kikos7/taskManagementNodeApp/tree/main/images/padlock.png?raw=true)
 
 ![home](https://github.com/kikos7/taskManagementNodeApp/assets/46767682/59ba3825-398a-4fff-97ac-6c0d13d945d8)
 ![login](https://github.com/kikos7/taskManagementNodeApp/assets/46767682/2c3494a4-b45d-4dda-9742-178269765cbd)
